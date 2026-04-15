@@ -103,6 +103,3 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(mediaItem, { status: 201 });
 }
 
-export const config = {
-  api: { bodyParser: false },
-};
