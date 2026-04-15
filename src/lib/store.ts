@@ -1,22 +1,14 @@
-// File-based post & media store for development (Step 5).
-// Data lives in /data/posts.json and /data/media.json at project root.
-// Production upgrade path: replace with Prisma + PostgreSQL in Step 6.
+// Supabase-backed CMS store (Step 6 upgrade from file-based store).
+// All reads/writes go to Postgres via the service_role client in lib/db.ts.
+// The public API (function signatures and return types) is unchanged so all
+// admin pages and API routes continue to work without modification.
 //
-// This module runs only in the Node.js runtime (server actions / API routes).
+// DB row ↔ camelCase mapping is handled inside each function.
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
-
-const DATA_DIR = join(process.cwd(), 'data');
-const POSTS_FILE = join(DATA_DIR, 'cms-posts.json');
-const MEDIA_FILE = join(DATA_DIR, 'cms-media.json');
-
-function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-}
+import { db } from './db';
 
 // ────────────────────────────────────────────────────────────────
-// Post store
+// Types (unchanged from Step 5 so callers need no edits)
 // ────────────────────────────────────────────────────────────────
 
 export type PostStatus = 'draft' | 'published';
@@ -32,88 +24,21 @@ export interface CmsPost {
   cover: string;
   excerptZh: string;
   excerptEn: string;
-  bodyZh: string; // HTML
-  bodyEn: string; // HTML
+  bodyZh: string;
+  bodyEn: string;
   status: PostStatus;
   metaTitleZh?: string;
   metaDescZh?: string;
   metaTitleEn?: string;
   metaDescEn?: string;
-  createdAt: string; // ISO
-  updatedAt: string; // ISO
+  createdAt: string;
+  updatedAt: string;
 }
-
-function readPosts(): CmsPost[] {
-  ensureDataDir();
-  if (!existsSync(POSTS_FILE)) return [];
-  try {
-    return JSON.parse(readFileSync(POSTS_FILE, 'utf-8')) as CmsPost[];
-  } catch {
-    return [];
-  }
-}
-
-function writePosts(posts: CmsPost[]) {
-  ensureDataDir();
-  writeFileSync(POSTS_FILE, JSON.stringify(posts, null, 2), 'utf-8');
-}
-
-export function getAllCmsPosts(): CmsPost[] {
-  return readPosts().sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-}
-
-export function getCmsPost(id: string): CmsPost | undefined {
-  return readPosts().find((p) => p.id === id);
-}
-
-export function createCmsPost(
-  data: Omit<CmsPost, 'id' | 'createdAt' | 'updatedAt'>,
-): CmsPost {
-  const posts = readPosts();
-  const now = new Date().toISOString();
-  const post: CmsPost = {
-    ...data,
-    id: `post_${Date.now()}`,
-    createdAt: now,
-    updatedAt: now,
-  };
-  writePosts([...posts, post]);
-  return post;
-}
-
-export function updateCmsPost(
-  id: string,
-  data: Partial<Omit<CmsPost, 'id' | 'createdAt'>>,
-): CmsPost | null {
-  const posts = readPosts();
-  const idx = posts.findIndex((p) => p.id === id);
-  if (idx === -1) return null;
-  const updated = {
-    ...posts[idx],
-    ...data,
-    updatedAt: new Date().toISOString(),
-  };
-  posts[idx] = updated;
-  writePosts(posts);
-  return updated;
-}
-
-export function deleteCmsPost(id: string): boolean {
-  const posts = readPosts();
-  const filtered = posts.filter((p) => p.id !== id);
-  if (filtered.length === posts.length) return false;
-  writePosts(filtered);
-  return true;
-}
-
-// ────────────────────────────────────────────────────────────────
-// Media store
-// ────────────────────────────────────────────────────────────────
 
 export interface CmsMedia {
   id: string;
   filename: string;
-  url: string; // relative to /public, e.g. /uploads/image.webp
+  url: string;
   originalName: string;
   width: number;
   height: number;
@@ -121,40 +46,167 @@ export interface CmsMedia {
   uploadedAt: string;
 }
 
-function readMedia(): CmsMedia[] {
-  ensureDataDir();
-  if (!existsSync(MEDIA_FILE)) return [];
-  try {
-    return JSON.parse(readFileSync(MEDIA_FILE, 'utf-8')) as CmsMedia[];
-  } catch {
-    return [];
-  }
-}
+// ────────────────────────────────────────────────────────────────
+// Row mappers  (snake_case DB → camelCase TS)
+// ────────────────────────────────────────────────────────────────
 
-function writeMedia(media: CmsMedia[]) {
-  ensureDataDir();
-  writeFileSync(MEDIA_FILE, JSON.stringify(media, null, 2), 'utf-8');
-}
-
-export function getAllCmsMedia(): CmsMedia[] {
-  return readMedia().sort((a, b) => (a.uploadedAt < b.uploadedAt ? 1 : -1));
-}
-
-export function addCmsMedia(item: Omit<CmsMedia, 'id' | 'uploadedAt'>): CmsMedia {
-  const all = readMedia();
-  const entry: CmsMedia = {
-    ...item,
-    id: `media_${Date.now()}`,
-    uploadedAt: new Date().toISOString(),
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToPost(r: any): CmsPost {
+  return {
+    id: r.id,
+    titleZh: r.title_zh,
+    titleEn: r.title_en,
+    slug: r.slug,
+    categoryZh: r.category_zh,
+    authorZh: r.author_zh,
+    authorEn: r.author_en,
+    cover: r.cover,
+    excerptZh: r.excerpt_zh,
+    excerptEn: r.excerpt_en,
+    bodyZh: r.body_zh,
+    bodyEn: r.body_en,
+    status: r.status,
+    metaTitleZh: r.meta_title_zh ?? undefined,
+    metaDescZh: r.meta_desc_zh ?? undefined,
+    metaTitleEn: r.meta_title_en ?? undefined,
+    metaDescEn: r.meta_desc_en ?? undefined,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
   };
-  writeMedia([...all, entry]);
-  return entry;
 }
 
-export function deleteCmsMedia(id: string): boolean {
-  const all = readMedia();
-  const filtered = all.filter((m) => m.id !== id);
-  if (filtered.length === all.length) return false;
-  writeMedia(filtered);
-  return true;
+function postToRow(p: Partial<CmsPost>) {
+  const row: Record<string, unknown> = {};
+  if (p.titleZh !== undefined) row.title_zh = p.titleZh;
+  if (p.titleEn !== undefined) row.title_en = p.titleEn;
+  if (p.slug !== undefined) row.slug = p.slug;
+  if (p.categoryZh !== undefined) row.category_zh = p.categoryZh;
+  if (p.authorZh !== undefined) row.author_zh = p.authorZh;
+  if (p.authorEn !== undefined) row.author_en = p.authorEn;
+  if (p.cover !== undefined) row.cover = p.cover;
+  if (p.excerptZh !== undefined) row.excerpt_zh = p.excerptZh;
+  if (p.excerptEn !== undefined) row.excerpt_en = p.excerptEn;
+  if (p.bodyZh !== undefined) row.body_zh = p.bodyZh;
+  if (p.bodyEn !== undefined) row.body_en = p.bodyEn;
+  if (p.status !== undefined) row.status = p.status;
+  if (p.metaTitleZh !== undefined) row.meta_title_zh = p.metaTitleZh;
+  if (p.metaDescZh !== undefined) row.meta_desc_zh = p.metaDescZh;
+  if (p.metaTitleEn !== undefined) row.meta_title_en = p.metaTitleEn;
+  if (p.metaDescEn !== undefined) row.meta_desc_en = p.metaDescEn;
+  return row;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToMedia(r: any): CmsMedia {
+  return {
+    id: r.id,
+    filename: r.filename,
+    url: r.url,
+    originalName: r.original_name,
+    width: r.width,
+    height: r.height,
+    sizeBytes: r.size_bytes,
+    uploadedAt: r.uploaded_at,
+  };
+}
+
+// ────────────────────────────────────────────────────────────────
+// Post store
+// ────────────────────────────────────────────────────────────────
+
+export async function getAllCmsPosts(): Promise<CmsPost[]> {
+  const { data, error } = await db
+    .from('cms_posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(`getAllCmsPosts: ${error.message}`);
+  return (data ?? []).map(rowToPost);
+}
+
+export async function getCmsPost(id: string): Promise<CmsPost | undefined> {
+  const { data, error } = await db
+    .from('cms_posts')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw new Error(`getCmsPost: ${error.message}`);
+  return data ? rowToPost(data) : undefined;
+}
+
+export async function createCmsPost(
+  data: Omit<CmsPost, 'id' | 'createdAt' | 'updatedAt'>,
+): Promise<CmsPost> {
+  const row = postToRow(data);
+  const { data: inserted, error } = await db
+    .from('cms_posts')
+    .insert(row)
+    .select()
+    .single();
+  if (error) throw new Error(`createCmsPost: ${error.message}`);
+  return rowToPost(inserted);
+}
+
+export async function updateCmsPost(
+  id: string,
+  data: Partial<Omit<CmsPost, 'id' | 'createdAt'>>,
+): Promise<CmsPost | null> {
+  const row = postToRow(data);
+  const { data: updated, error } = await db
+    .from('cms_posts')
+    .update(row)
+    .eq('id', id)
+    .select()
+    .maybeSingle();
+  if (error) throw new Error(`updateCmsPost: ${error.message}`);
+  return updated ? rowToPost(updated) : null;
+}
+
+export async function deleteCmsPost(id: string): Promise<boolean> {
+  const { error, count } = await db
+    .from('cms_posts')
+    .delete({ count: 'exact' })
+    .eq('id', id);
+  if (error) throw new Error(`deleteCmsPost: ${error.message}`);
+  return (count ?? 0) > 0;
+}
+
+// ────────────────────────────────────────────────────────────────
+// Media store
+// ────────────────────────────────────────────────────────────────
+
+export async function getAllCmsMedia(): Promise<CmsMedia[]> {
+  const { data, error } = await db
+    .from('cms_media')
+    .select('*')
+    .order('uploaded_at', { ascending: false });
+  if (error) throw new Error(`getAllCmsMedia: ${error.message}`);
+  return (data ?? []).map(rowToMedia);
+}
+
+export async function addCmsMedia(
+  item: Omit<CmsMedia, 'id' | 'uploadedAt'>,
+): Promise<CmsMedia> {
+  const { data, error } = await db
+    .from('cms_media')
+    .insert({
+      filename: item.filename,
+      url: item.url,
+      original_name: item.originalName,
+      width: item.width,
+      height: item.height,
+      size_bytes: item.sizeBytes,
+    })
+    .select()
+    .single();
+  if (error) throw new Error(`addCmsMedia: ${error.message}`);
+  return rowToMedia(data);
+}
+
+export async function deleteCmsMedia(id: string): Promise<boolean> {
+  const { error, count } = await db
+    .from('cms_media')
+    .delete({ count: 'exact' })
+    .eq('id', id);
+  if (error) throw new Error(`deleteCmsMedia: ${error.message}`);
+  return (count ?? 0) > 0;
 }

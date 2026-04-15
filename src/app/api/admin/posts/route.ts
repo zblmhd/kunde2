@@ -9,13 +9,13 @@ function authed(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   if (!authed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  return NextResponse.json(getAllCmsPosts());
+  return NextResponse.json(await getAllCmsPosts());
 }
 
 export async function POST(req: NextRequest) {
   if (!authed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const body = await req.json();
-  const post = createCmsPost({
+  const post = await createCmsPost({
     titleZh: body.titleZh ?? '',
     titleEn: body.titleEn ?? '',
     slug: body.slug ?? `post-${Date.now()}`,

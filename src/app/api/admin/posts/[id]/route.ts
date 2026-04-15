@@ -9,7 +9,7 @@ function authed(req: NextRequest) {
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   if (!authed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const post = getCmsPost(params.id);
+  const post = await getCmsPost(params.id);
   if (!post) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   return NextResponse.json(post);
 }
@@ -17,14 +17,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   if (!authed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const body = await req.json();
-  const updated = updateCmsPost(params.id, body);
+  const updated = await updateCmsPost(params.id, body);
   if (!updated) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   return NextResponse.json(updated);
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   if (!authed(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const ok = deleteCmsPost(params.id);
+  const ok = await deleteCmsPost(params.id);
   if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

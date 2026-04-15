@@ -7,8 +7,8 @@ import { DeletePostButton } from './DeletePostButton';
 export const metadata: Metadata = { title: '文章管理' };
 export const dynamic = 'force-dynamic';
 
-export default function AdminPostsPage() {
-  const posts = getAllCmsPosts();
+export default async function AdminPostsPage() {
+  const posts = await getAllCmsPosts();
 
   return (
     <>

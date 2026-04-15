@@ -6,8 +6,8 @@ import { getAllCmsMedia } from '@/lib/store';
 export const metadata: Metadata = { title: '媒体库' };
 export const dynamic = 'force-dynamic';
 
-export default function AdminMediaPage() {
-  const media = getAllCmsMedia();
+export default async function AdminMediaPage() {
+  const media = await getAllCmsMedia();
   return (
     <>
       <AdminNav />

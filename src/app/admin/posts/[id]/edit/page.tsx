@@ -9,15 +9,15 @@ interface Props {
   params: { id: string };
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const post = getCmsPost(params.id);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = await getCmsPost(params.id);
   return { title: post ? `编辑：${post.titleZh}` : '编辑文章' };
 }
 
 export const dynamic = 'force-dynamic';
 
-export default function EditPostPage({ params }: Props) {
-  const post = getCmsPost(params.id);
+export default async function EditPostPage({ params }: Props) {
+  const post = await getCmsPost(params.id);
   if (!post) notFound();
 
   return (
