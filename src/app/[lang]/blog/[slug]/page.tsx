@@ -49,7 +49,10 @@ function cmsToPost(c: { slug: string; titleZh: string; titleEn: string; excerptZ
   };
 }
 
-async function resolvePost(slug: string): Promise<Post | null> {
+async function resolvePost(rawSlug: string): Promise<Post | null> {
+  // Decode in case Next.js passes URL-encoded slug
+  const slug = decodeURIComponent(rawSlug);
+
   // Try static posts first
   const staticPost = getPost(slug);
   if (staticPost) return staticPost;
@@ -58,8 +61,8 @@ async function resolvePost(slug: string): Promise<Post | null> {
   try {
     const cmsPost = await getCmsPostBySlug(slug);
     if (cmsPost) return cmsToPost(cmsPost);
-  } catch {
-    // DB unavailable
+  } catch (err) {
+    console.error('resolvePost CMS error:', err);
   }
   return null;
 }
