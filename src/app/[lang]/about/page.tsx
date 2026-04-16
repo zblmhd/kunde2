@@ -72,9 +72,9 @@ export default function AboutPage({ params }: Props) {
 
       {/* Hero */}
       <section className="relative bg-header text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-25">
+        <div className="absolute inset-0 opacity-35">
           <Image
-            src="/images/about-hero.svg"
+            src="/images/clinic/waiting-room.webp"
             alt={t.heroAlt}
             fill
             priority
@@ -105,6 +105,31 @@ export default function AboutPage({ params }: Props) {
               {p}
             </p>
           ))}
+        </div>
+      </section>
+
+      {/* Clinic Gallery */}
+      <section className="border-b border-border">
+        <div className="container-kunde py-12 lg:py-16">
+          <h2 className="font-serif text-h2 text-center mb-8">
+            {isZh ? '诊所环境' : 'Our Clinic'}
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { src: '/images/clinic/reception-calligraphy.webp', alt: isZh ? '前台大医精诚' : 'Reception with calligraphy wall' },
+              { src: '/images/clinic/waiting-room.webp', alt: isZh ? '候诊区' : 'Waiting area' },
+              { src: '/images/clinic/entrance-sign.webp', alt: isZh ? '坤德中医养生轩招牌' : 'Kunde TCM entrance sign' },
+              { src: '/images/clinic/corridor-plants.webp', alt: isZh ? '走廊绿植' : 'Corridor with plants' },
+              { src: '/images/clinic/treatment-room-1.webp', alt: isZh ? '治疗室' : 'Treatment room' },
+              { src: '/images/clinic/herbal-shelf.webp', alt: isZh ? '中药展示柜' : 'Herbal medicine display' },
+              { src: '/images/clinic/front-desk.webp', alt: isZh ? '前台' : 'Front desk' },
+              { src: '/images/clinic/hallway-art.webp', alt: isZh ? '走廊艺术装饰' : 'Hallway with artwork' },
+            ].map((img) => (
+              <div key={img.src} className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                <Image src={img.src} alt={img.alt} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover hover:scale-105 transition-transform duration-300" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

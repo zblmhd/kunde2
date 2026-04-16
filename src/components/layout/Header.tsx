@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, X, Globe } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { dict, otherLocale } from '@/lib/i18n';
@@ -30,12 +31,14 @@ export function Header({ locale }: HeaderProps) {
             href={`/${locale}`}
             className="flex items-center gap-2 font-serif text-xl font-bold text-[color:var(--color-text)] hover:text-primary"
           >
-            <span className="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-lg">
-              坤
-            </span>
-            <span className="hidden sm:inline">
-              {locale === 'zh' ? '坤德中医养生轩' : 'Kunde TCM'}
-            </span>
+            <Image
+              src="/images/logo/kunde-logo.png"
+              alt="坤德中医养生轩 · New York Four Seasons Acupuncture PC"
+              width={180}
+              height={49}
+              priority
+              className="h-10 w-auto"
+            />
           </Link>
 
           {/* Desktop nav */}

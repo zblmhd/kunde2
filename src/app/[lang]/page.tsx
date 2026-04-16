@@ -7,6 +7,7 @@ import { MethodsGrid } from '@/components/sections/MethodsGrid';
 import { ConditionsGrid } from '@/components/sections/ConditionsGrid';
 import { DoctorBookingSection } from '@/components/sections/DoctorBookingSection';
 import { WhyChooseKunde } from '@/components/sections/WhyChooseKunde';
+import { ClinicGallery } from '@/components/sections/ClinicGallery';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { BlogPreview } from '@/components/sections/BlogPreview';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -91,6 +92,7 @@ export default function HomePage({ params }: Props) {
       <ConditionsGrid locale={lang} />
       <DoctorBookingSection locale={lang} />
       <WhyChooseKunde locale={lang} />
+      <ClinicGallery locale={lang} />
       <TestimonialsSection locale={lang} />
       <BlogPreview locale={lang} />
 

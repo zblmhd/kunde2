@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
@@ -106,8 +107,11 @@ export default function ConditionsListPage({ params }: Props) {
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
 
       {/* Hero */}
-      <section className="relative bg-header text-white">
-        <div className="container-kunde py-16 lg:py-20">
+      <section className="relative bg-header text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <Image src="/images/clinic/corridor-plants.webp" alt="" fill sizes="100vw" className="object-cover" />
+        </div>
+        <div className="relative container-kunde py-16 lg:py-20">
           <Breadcrumbs items={breadcrumbs} className="mb-6" />
           <h1 className="font-serif text-3xl md:text-display leading-tight mb-6 max-w-4xl">
             {t.listH1}

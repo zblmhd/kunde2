@@ -19,9 +19,9 @@ export function Hero({ locale }: Props) {
 
   return (
     <section className="relative bg-header text-white overflow-hidden">
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-40">
         <Image
-          src="/images/hero-key.svg"
+          src="/images/clinic/reception-calligraphy.webp"
           alt={t.heroAlt}
           fill
           priority

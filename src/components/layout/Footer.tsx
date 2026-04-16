@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, Mail, Clock, Facebook, Instagram } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { dict } from '@/lib/i18n';
@@ -40,7 +41,13 @@ export function Footer({ locale }: FooterProps) {
       <div className="container-kunde py-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
         {/* Brand */}
         <div>
-          <h3 className="font-serif text-xl text-white mb-3">{t.brand}</h3>
+          <Image
+            src="/images/logo/kunde-logo.png"
+            alt="坤德中医养生轩"
+            width={160}
+            height={44}
+            className="h-10 w-auto mb-4 brightness-0 invert"
+          />
           <p className="text-sm text-white/70 mb-2">{t.tagline}</p>
           <p className="text-sm text-white/60 italic">{t.motto}</p>
         </div>

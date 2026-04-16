@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CheckCircle2, Phone, ShieldCheck } from 'lucide-react';
@@ -276,7 +277,10 @@ export default function NewPatientsPage({ params }: Props) {
       <JsonLd data={faqPageSchema(faqs)} />
 
       {/* Hero */}
-      <section className="relative bg-header text-white">
+      <section className="relative bg-header text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <Image src="/images/clinic/entrance-lobby.webp" alt="" fill sizes="100vw" className="object-cover" />
+        </div>
         <div className="relative container-kunde py-16 lg:py-20">
           <Breadcrumbs items={breadcrumbs} className="mb-6" />
           <h1 className="font-serif text-3xl md:text-display leading-tight mb-6 max-w-4xl">

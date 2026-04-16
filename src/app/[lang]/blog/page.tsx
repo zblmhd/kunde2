@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Breadcrumbs } from '@/components/sections/Breadcrumbs';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -62,7 +63,10 @@ export default function BlogListPage({ params }: Props) {
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
 
       {/* Hero */}
-      <section className="relative bg-header text-white">
+      <section className="relative bg-header text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-30">
+          <Image src="/images/clinic/herbal-shelf.webp" alt="" fill sizes="100vw" className="object-cover" />
+        </div>
         <div className="container-kunde py-14 lg:py-18 relative">
           <Breadcrumbs items={breadcrumbs} className="mb-6" />
           <h1 className="font-serif text-3xl md:text-display leading-tight mb-4 max-w-3xl">

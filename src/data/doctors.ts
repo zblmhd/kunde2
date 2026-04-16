@@ -126,8 +126,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['英语', '普通话', '粤语'],
     languagesEn: ['English', 'Mandarin', 'Cantonese'],
-    image: '/images/doctors/serene-feng.svg',
-    imagePath: '/images/doctors/serene-feng.svg',
+    image: '/images/doctors/serene-feng.jpg',
+    imagePath: '/images/doctors/serene-feng.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=6953534',
     bioZh: [
@@ -196,8 +196,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话', '粤语'],
     languagesEn: ['Mandarin', 'Cantonese'],
-    image: '/images/doctors/suoan-feng.svg',
-    imagePath: '/images/doctors/suoan-feng.svg',
+    image: '/images/doctors/suoan-feng.jpg',
+    imagePath: '/images/doctors/suoan-feng.jpg',
     bookingUrl: 'tel:+17188889087',
     phoneOnly: true,
     bioZh: [
@@ -255,8 +255,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话', '英语'],
     languagesEn: ['Mandarin', 'English'],
-    image: '/images/doctors/yang-gui.svg',
-    imagePath: '/images/doctors/yang-gui.svg',
+    image: '/images/doctors/yang-gui.jpg',
+    imagePath: '/images/doctors/yang-gui.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=6954760',
     bioZh: [
@@ -315,8 +315,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话', '英语', '俄语'],
     languagesEn: ['Mandarin', 'English', 'Russian'],
-    image: '/images/doctors/dixu-gao.svg',
-    imagePath: '/images/doctors/dixu-gao.svg',
+    image: '/images/doctors/dixu-gao.jpg',
+    imagePath: '/images/doctors/dixu-gao.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=7028544',
     bioZh: [
@@ -366,8 +366,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话'],
     languagesEn: ['Mandarin'],
-    image: '/images/doctors/senior-chang.svg',
-    imagePath: '/images/doctors/senior-chang.svg',
+    image: '/images/doctors/senior-chang.jpg',
+    imagePath: '/images/doctors/senior-chang.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=12316332',
     bioZh: [
@@ -543,8 +543,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话', '上海话', '英语'],
     languagesEn: ['Mandarin', 'Shanghainese', 'English'],
-    image: '/images/doctors/jiana-xu.svg',
-    imagePath: '/images/doctors/jiana-xu.svg',
+    image: '/images/doctors/jiana-xu.jpg',
+    imagePath: '/images/doctors/jiana-xu.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=7028544',
     bioZh: [
