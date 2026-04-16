@@ -4,15 +4,56 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import type { Locale } from '@/lib/i18n';
 import { dict } from '@/lib/i18n';
-import { blogPreview } from '@/data/blog-preview';
+import { getPostsSortedByDate } from '@/data/posts';
+import { getPublishedCmsPosts } from '@/lib/store';
 
 interface Props {
   locale: Locale;
 }
 
-export function BlogPreview({ locale }: Props) {
+export async function BlogPreview({ locale }: Props) {
   const t = dict[locale].home;
   const isZh = locale === 'zh';
+
+  // Merge static posts + CMS posts, deduplicate by slug, sort by date desc
+  const staticPosts = getPostsSortedByDate().map((p) => ({
+    slug: p.slug,
+    titleZh: p.titleZh,
+    titleEn: p.titleEn,
+    excerptZh: p.excerptZh,
+    excerptEn: p.excerptEn,
+    category: p.categoriesZh[0] ?? '',
+    date: p.date,
+    cover: p.cover,
+  }));
+
+  let cmsPosts: typeof staticPosts = [];
+  try {
+    const raw = await getPublishedCmsPosts();
+    cmsPosts = raw.map((p) => ({
+      slug: p.slug,
+      titleZh: p.titleZh,
+      titleEn: p.titleEn || p.titleZh,
+      excerptZh: p.excerptZh,
+      excerptEn: p.excerptEn || p.excerptZh,
+      category: p.categoryZh,
+      date: p.createdAt.slice(0, 10),
+      cover: p.cover || '/images/about-hero.svg',
+    }));
+  } catch {
+    // fall back to static only
+  }
+
+  // Deduplicate by slug (CMS takes priority), then sort newest first, take 3
+  const slugSeen = new Set<string>();
+  const all = [...cmsPosts, ...staticPosts].filter((p) => {
+    if (slugSeen.has(p.slug)) return false;
+    slugSeen.add(p.slug);
+    return true;
+  });
+  all.sort((a, b) => b.date.localeCompare(a.date));
+  const preview = all.slice(0, 3);
+
   return (
     <section className="container-kunde py-16 lg:py-20">
       <div className="text-center mb-12">
@@ -20,7 +61,7 @@ export function BlogPreview({ locale }: Props) {
         <p className="text-[color:var(--color-text-muted)]">{t.blogSub}</p>
       </div>
       <div className="grid gap-6 md:grid-cols-3">
-        {blogPreview.map((post) => (
+        {preview.map((post) => (
           <Link
             key={post.slug}
             href={`/${locale}/blog/${post.slug}`}

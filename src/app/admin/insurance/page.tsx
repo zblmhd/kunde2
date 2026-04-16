@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AdminNav } from '../AdminNav';
 import { getAllInsuranceVerifications } from '@/lib/store';
+import { InsuranceActions } from './InsuranceActions';
 
 export const metadata: Metadata = { title: '保险验证管理' };
 export const dynamic = 'force-dynamic';
@@ -31,6 +32,7 @@ export default async function AdminInsurancePage() {
                   <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden lg:table-cell">会员编号</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600">状态</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden sm:table-cell">提交时间</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-600">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,6 +69,9 @@ export default async function AdminInsurancePage() {
                         dateStyle: 'short',
                         timeStyle: 'short',
                       })}
+                    </td>
+                    <td className="px-4 py-3">
+                      <InsuranceActions id={item.id} status={item.status} />
                     </td>
                   </tr>
                 ))}

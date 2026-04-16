@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Upload, Copy, Trash2, ImageIcon } from 'lucide-react';
 import type { CmsMedia } from '@/lib/store';
 
@@ -10,28 +11,45 @@ interface Props {
 }
 
 export function MediaLibrary({ initialMedia }: Props) {
+  const router = useRouter();
   const [media, setMedia] = useState<CmsMedia[]>(initialMedia);
   const [uploading, setUploading] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [uploadError, setUploadError] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Sync when server re-renders with fresh data after router.refresh()
+  useEffect(() => {
+    setMedia(initialMedia);
+  }, [initialMedia]);
 
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     setUploading(true);
-    const newItems: CmsMedia[] = [];
+    setUploadError('');
+    let successCount = 0;
     for (const file of Array.from(files)) {
       const form = new FormData();
       form.append('file', file);
       try {
         const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
         if (res.ok) {
-          const item = (await res.json()) as CmsMedia;
-          newItems.push(item);
+          successCount++;
+        } else {
+          const err = await res.json().catch(() => ({}));
+          setUploadError(`上传失败：${(err as { error?: string }).error ?? res.statusText}`);
         }
-      } catch { /* skip */ }
+      } catch {
+        setUploadError('上传失败，请检查网络后重试');
+      }
     }
-    setMedia((prev) => [...newItems, ...prev]);
+    // Clear input so same file can be re-selected
+    if (inputRef.current) inputRef.current.value = '';
     setUploading(false);
+    if (successCount > 0) {
+      // Refresh server component to get updated media list from DB
+      router.refresh();
+    }
   }
 
   async function handleDelete(id: string) {
@@ -68,6 +86,12 @@ export function MediaLibrary({ initialMedia }: Props) {
           onChange={(e) => handleFiles(e.target.files)}
         />
       </div>
+
+      {uploadError && (
+        <div className="mb-4 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
+          {uploadError}
+        </div>
+      )}
 
       {/* Drop zone */}
       <div

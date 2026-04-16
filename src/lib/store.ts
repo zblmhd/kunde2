@@ -277,12 +277,18 @@ export async function updateBookingStatus(
   id: string,
   status: 'pending' | 'confirmed' | 'cancelled',
 ): Promise<boolean> {
-  const { error, count } = await db
+  const { error } = await db
     .from('bookings')
     .update({ status })
     .eq('id', id);
   if (error) throw new Error(`updateBookingStatus: ${error.message}`);
-  return (count ?? 0) > 0;
+  return true;
+}
+
+export async function deleteBooking(id: string): Promise<boolean> {
+  const { error } = await db.from('bookings').delete().eq('id', id);
+  if (error) throw new Error(`deleteBooking: ${error.message}`);
+  return true;
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -381,6 +387,24 @@ export async function getAllInsuranceVerifications(): Promise<InsuranceVerificat
     .order('created_at', { ascending: false });
   if (error) throw new Error(`getAllInsuranceVerifications: ${error.message}`);
   return (data ?? []).map(rowToInsurance);
+}
+
+export async function updateInsuranceStatus(
+  id: string,
+  status: 'pending' | 'verified' | 'denied',
+): Promise<boolean> {
+  const { error } = await db
+    .from('insurance_verifications')
+    .update({ status })
+    .eq('id', id);
+  if (error) throw new Error(`updateInsuranceStatus: ${error.message}`);
+  return true;
+}
+
+export async function deleteInsuranceVerification(id: string): Promise<boolean> {
+  const { error } = await db.from('insurance_verifications').delete().eq('id', id);
+  if (error) throw new Error(`deleteInsuranceVerification: ${error.message}`);
+  return true;
 }
 
 export async function createInsuranceVerification(

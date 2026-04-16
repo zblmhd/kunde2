@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { AdminNav } from '../AdminNav';
 import { getAllBookings } from '@/lib/store';
+import { BookingActions } from './BookingActions';
 
 export const metadata: Metadata = { title: '预约管理' };
 export const dynamic = 'force-dynamic';
@@ -32,6 +33,7 @@ export default async function AdminBookingsPage() {
                   <th className="text-left px-4 py-3 font-semibold text-gray-600">症状</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600">状态</th>
                   <th className="text-left px-4 py-3 font-semibold text-gray-600 hidden sm:table-cell">提交时间</th>
+                  <th className="text-left px-4 py-3 font-semibold text-gray-600">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,6 +73,9 @@ export default async function AdminBookingsPage() {
                         dateStyle: 'short',
                         timeStyle: 'short',
                       })}
+                    </td>
+                    <td className="px-4 py-3">
+                      <BookingActions id={b.id} status={b.status} />
                     </td>
                   </tr>
                 ))}

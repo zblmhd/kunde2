@@ -18,6 +18,8 @@ import {
 } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 interface Props {
   params: { lang: string };
 }
