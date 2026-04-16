@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getAllCmsPosts } from '@/lib/store';
-import { db } from '@/lib/db';
 import { AdminNav } from '../AdminNav';
 import { DeletePostButton } from './DeletePostButton';
 
@@ -10,14 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminPostsPage() {
   let posts: Awaited<ReturnType<typeof getAllCmsPosts>> = [];
-  let debugInfo = '';
   try {
-    // Direct query for debugging
-    const { data: rawData, error: rawError } = await db
-      .from('cms_posts')
-      .select('id, title_zh')
-      .order('created_at', { ascending: false });
-    debugInfo = `direct: data=${JSON.stringify(rawData)}, error=${JSON.stringify(rawError)}`;
     posts = await getAllCmsPosts();
   } catch (err) {
     console.error('AdminPostsPage error:', err);
@@ -29,7 +21,6 @@ export default async function AdminPostsPage() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <p className="text-red-600">加载文章失败，请刷新页面重试。</p>
             <p className="text-red-400 text-sm mt-2">{String(err)}</p>
-            <p className="text-gray-400 text-xs mt-2">debug: {debugInfo}</p>
           </div>
         </main>
       </>
@@ -40,10 +31,6 @@ export default async function AdminPostsPage() {
     <>
       <AdminNav />
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* DEBUG — remove after fixing */}
-        <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-4 text-xs text-blue-700 break-all">
-          posts.length={posts.length} | {debugInfo}
-        </div>
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold font-serif">文章管理</h1>
           <Link
