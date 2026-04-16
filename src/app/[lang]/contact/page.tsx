@@ -99,14 +99,14 @@ export default function ContactPage({ params }: Props) {
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
           <h1
-            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-4xl"
+            className="font-serif text-[1.6rem] sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-4xl"
             style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
           >
             {isZh
               ? '法拉盛中医诊所 — 坤德中医 5 家分店'
               : 'Acupuncture Flushing & Chinese Medicine Clinic Flushing — Kunde TCM 5 Locations'}
           </h1>
-          <p className="text-body-lg text-white/90 max-w-3xl mb-6">
+          <p className="text-sm sm:text-body-lg text-white/75 max-w-3xl mb-5">
             {isZh
               ? '5 家分店遍布纽约，总有一家在您身边'
               : '5 locations across New York City and the Hudson Valley — one near you'}

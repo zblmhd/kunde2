@@ -145,10 +145,10 @@ export default function ConditionDetailPage({ params }: Props) {
       <JsonLd data={faqPageSchema(faqs)} />
 
       {/* Hero */}
-      <section className="relative bg-header text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
+      <section className="relative overflow-hidden min-h-[480px] flex items-end">
+        <div className="absolute inset-0">
           <Image
-            src={cond.image}
+            src="/images/clinic/treatment-room-1.webp"
             alt={`${name} — ${isZh ? '坤德中医养生轩 · 纽约中医诊所' : 'Kunde TCM · Acupuncture Clinic NYC'}`}
             fill
             priority
@@ -156,23 +156,28 @@ export default function ConditionDetailPage({ params }: Props) {
             className="object-cover"
           />
         </div>
-        <div className="relative container-kunde py-16 lg:py-20">
-          <Breadcrumbs items={breadcrumbs} className="mb-6" />
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full bg-primary/25 flex items-center justify-center">
-              <Icon className="w-7 h-7 text-white" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/45 to-black/10" />
+        <div className="relative container-kunde pb-12 pt-28 w-full">
+          <Breadcrumbs items={breadcrumbs} className="mb-5" />
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-full bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0">
+              <Icon className="w-4 h-4 text-[color:var(--color-primary-light)]" />
             </div>
-            <p className="text-primary-light text-sm tracking-widest uppercase">
+            <div className="h-px w-5 bg-[color:var(--color-primary)]" />
+            <p className="text-[color:var(--color-primary)] text-[10px] font-bold tracking-[0.2em] uppercase">
               {t.breadcrumbConditions}
             </p>
           </div>
-          <h1 className="font-serif text-3xl md:text-display leading-tight mb-6 max-w-4xl">
+          <h1
+            className="font-serif text-2xl sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-4xl"
+            style={{ textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+          >
             {name}
           </h1>
-          <p className="text-body-lg text-white/90 max-w-3xl mb-8 italic">
+          <p className="text-sm sm:text-body-lg text-white/70 max-w-3xl mb-6 italic">
             {tagline}
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             <Button href={`/${lang}/contact#booking`} size="lg">
               {t.bookNow}
             </Button>
@@ -180,7 +185,7 @@ export default function ConditionDetailPage({ params }: Props) {
               href={`/${lang}/conditions`}
               variant="secondary"
               size="lg"
-              className="!bg-transparent !text-white !border-white hover:!bg-white/10"
+              className="!bg-transparent !text-white !border-white/40 hover:!bg-white/10"
             >
               {t.viewAll}
             </Button>

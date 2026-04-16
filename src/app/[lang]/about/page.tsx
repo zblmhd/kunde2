@@ -87,12 +87,12 @@ export default function AboutPage({ params }: Props) {
           <Breadcrumbs items={t.breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
           <h1
-            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-4xl"
+            className="font-serif text-[1.6rem] sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-4xl"
             style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
           >
             {t.h1}
           </h1>
-          <p className="text-body-lg text-white/90 max-w-3xl mb-6">{t.heroSub}</p>
+          <p className="text-sm sm:text-body-lg text-white/75 max-w-3xl mb-5">{t.heroSub}</p>
           <Button href={`/${lang}/contact#booking`} size="lg">
             {isZh ? '预约咨询' : 'Book a Consultation'}
           </Button>

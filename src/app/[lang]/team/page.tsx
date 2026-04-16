@@ -92,7 +92,7 @@ export default function TeamListPage({ params }: Props) {
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
           <h1
-            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-4xl"
+            className="font-serif text-[1.6rem] sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-4xl"
             style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
           >
             {t.listH1}

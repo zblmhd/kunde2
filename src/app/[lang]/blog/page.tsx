@@ -65,21 +65,21 @@ export default function BlogListPage({ params }: Props) {
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
-          <Image src="/images/clinic/herbal-shelf.webp" alt="" fill sizes="100vw" className="object-cover" />
+          <Image src="/images/hero-blog.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="relative container-kunde pb-12 pt-28 w-full">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
           <h1
-            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-3xl"
+            className="font-serif text-[1.6rem] sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-3xl"
             style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
           >
             {isZh
               ? '中医专栏 — 来自坤德中医专家的健康知识与养生智慧'
               : 'Kunde Wellness Journal — Evidence-Based TCM from Licensed Practitioners'}
           </h1>
-          <p className="text-body-lg text-white/90 max-w-2xl">
+          <p className="text-sm sm:text-body-lg text-white/75 max-w-2xl">
             {isZh
               ? '由医生为大家解说根本病因、解析疾病与个人体质的关系，并对应正统中医理论，采取适合的中医古法，做出有效治疗。'
               : 'Each article is written or reviewed by a licensed practitioner at Kunde TCM. Real cases, real diagnoses, practical guidance.'}

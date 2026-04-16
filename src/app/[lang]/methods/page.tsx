@@ -96,14 +96,14 @@ export default function MethodsListPage({ params }: Props) {
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
-          <Image src="/images/clinic/treatment-corridor.webp" alt="" fill sizes="100vw" className="object-cover" />
+          <Image src="/images/hero-methods.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="relative container-kunde pb-12 pt-28 w-full">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
           <h1
-            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-4xl"
+            className="font-serif text-[1.6rem] sm:text-3xl md:text-display font-bold leading-tight mb-3 text-white max-w-4xl"
             style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
           >
             {t.listH1}

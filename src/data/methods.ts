@@ -53,7 +53,7 @@ export const methods: Method[] = [
   {
     slug: 'acupuncture',
     icon: 'Activity',
-    image: '/images/methods/acupuncture.svg',
+    image: '/images/methods/acupuncture.jpg',
     nameZh: '针灸',
     nameEn: 'Acupuncture',
     taglineZh: '纽约针灸 · 针灸诊所 — 体针 · 耳针 · 电针，调和气血',
@@ -233,7 +233,7 @@ export const methods: Method[] = [
   {
     slug: 'herbal-medicine',
     icon: 'Leaf',
-    image: '/images/methods/herbal-medicine.svg',
+    image: '/images/methods/herbal-medicine.jpg',
     nameZh: '中药与药膳食疗',
     nameEn: 'Chinese Herbal Medicine',
     taglineZh: '法拉盛中药调理 — 量身定制方剂，真空包装配送全美',
@@ -383,7 +383,7 @@ export const methods: Method[] = [
   {
     slug: 'bianstone',
     icon: 'Gem',
-    image: '/images/methods/bianstone.svg',
+    image: '/images/methods/bianstone.jpg',
     nameZh: '砭石热石疗法',
     nameEn: 'Bianstone & Hot Stone Therapy',
     taglineZh: '天地人合一的石疗法，治痛 · 去郁 · 放松',
@@ -523,7 +523,7 @@ export const methods: Method[] = [
   {
     slug: 'tuina',
     icon: 'Hand',
-    image: '/images/methods/tuina.svg',
+    image: '/images/methods/tuina.jpg',
     nameZh: '经络推拿与踩背按摩',
     nameEn: 'Tui Na & Back-Trampling Massage',
     taglineZh: '循行经络腧穴，从全身脉络一关关疏通，解除你的痛点',
@@ -650,7 +650,7 @@ export const methods: Method[] = [
   {
     slug: 'cupping',
     icon: 'Circle',
-    image: '/images/methods/cupping.svg',
+    image: '/images/methods/cupping.jpg',
     nameZh: '拔罐',
     nameEn: 'Cupping Therapy',
     taglineZh: '以杯罐为工具，借负压促进循环、排毒、解痛',
@@ -781,7 +781,7 @@ export const methods: Method[] = [
   {
     slug: 'moxibustion-guasha',
     icon: 'Flame',
-    image: '/images/methods/moxibustion-guasha.svg',
+    image: '/images/methods/moxibustion-guasha.jpg',
     nameZh: '艾灸与刮痧',
     nameEn: 'Moxibustion & Gua Sha',
     taglineZh: '艾灸补虚人，刮痧治壮汉',
@@ -910,7 +910,7 @@ export const methods: Method[] = [
   {
     slug: 'sanfutie',
     icon: 'Sun',
-    image: '/images/methods/sanfutie.svg',
+    image: '/images/methods/sanfutie.jpg',
     nameZh: '三伏贴',
     nameEn: 'Sanfutie Summer Patches',
     taglineZh: '一年只要三天，冬病夏治',
@@ -1029,7 +1029,7 @@ export const methods: Method[] = [
   {
     slug: 'medicated-bath',
     icon: 'Droplet',
-    image: '/images/methods/medicated-bath.svg',
+    image: '/images/methods/medicated-bath.jpg',
     nameZh: '药浴',
     nameEn: 'Medicated Herbal Bath',
     taglineZh: '热疗 + 水疗 + 草药精华，全身经皮吸收',
