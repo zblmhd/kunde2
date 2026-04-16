@@ -17,4 +17,8 @@ if (!supabaseUrl || !supabaseServiceKey) {
 // Singleton — module-level so it is reused across hot reloads in dev.
 export const db = createClient(supabaseUrl, supabaseServiceKey, {
   auth: { persistSession: false },
+  global: {
+    fetch: (url: RequestInfo | URL, options?: RequestInit) =>
+      fetch(url, { ...options, cache: 'no-store' }),
+  },
 });
