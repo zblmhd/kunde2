@@ -6,16 +6,16 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { locales, type Locale } from '@/lib/i18n';
 import { breadcrumbSchema } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
-import { getPostsSortedByDate } from '@/data/posts';
+import { getPostsSortedByDate, type Post } from '@/data/posts';
+import { getPublishedCmsPosts } from '@/lib/store';
 import { BlogCategoryFilter } from './CategoryFilter';
 
 interface Props {
   params: { lang: string };
 }
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
+// Must be dynamic to fetch CMS posts from database
+export const dynamic = 'force-dynamic';
 
 export function generateMetadata({ params }: Props): Metadata {
   const lang = params.lang as Locale;
@@ -41,12 +41,52 @@ export function generateMetadata({ params }: Props): Metadata {
   });
 }
 
-export default function BlogListPage({ params }: Props) {
+/** Convert a CMS post from DB into the same shape the static posts use */
+function cmsToPost(c: { slug: string; titleZh: string; titleEn: string; excerptZh: string; excerptEn: string; bodyZh: string; bodyEn: string; authorZh: string; authorEn: string; categoryZh: string; cover: string; createdAt: string }): Post {
+  return {
+    slug: c.slug,
+    date: c.createdAt.slice(0, 10),
+    categoriesZh: [c.categoryZh as '患者故事'],
+    authorSlug: 'dr-feng',
+    authorZh: c.authorZh,
+    authorEn: c.authorEn,
+    cover: c.cover || '/images/about-hero.svg',
+    coverAltZh: c.titleZh,
+    coverAltEn: c.titleEn,
+    titleZh: c.titleZh,
+    titleEn: c.titleEn,
+    excerptZh: c.excerptZh,
+    excerptEn: c.excerptEn,
+    readMinutes: Math.max(3, Math.ceil((c.bodyZh.length + c.bodyEn.length) / 1000)),
+    bodyZh: c.bodyZh,
+    bodyEn: c.bodyEn,
+    relatedConditionSlugs: [],
+    relatedMethodSlugs: [],
+    tagsZh: [c.categoryZh],
+    tagsEn: [c.categoryZh],
+  };
+}
+
+export default async function BlogListPage({ params }: Props) {
   const lang = params.lang as Locale;
   if (!locales.includes(lang)) notFound();
   const isZh = lang === 'zh';
 
-  const posts = getPostsSortedByDate();
+  // Merge static posts and CMS database posts
+  const staticPosts = getPostsSortedByDate();
+  let cmsPosts: Post[] = [];
+  try {
+    const dbPosts = await getPublishedCmsPosts();
+    cmsPosts = dbPosts.map(cmsToPost);
+  } catch {
+    // If DB is unavailable, just show static posts
+  }
+
+  // Merge and deduplicate by slug (CMS posts override static ones)
+  const slugSet = new Set(cmsPosts.map((p) => p.slug));
+  const merged = [...cmsPosts, ...staticPosts.filter((p) => !slugSet.has(p.slug))];
+  // Sort by date descending
+  merged.sort((a, b) => b.date.localeCompare(a.date));
 
   const breadcrumbs = isZh
     ? [
@@ -89,7 +129,7 @@ export default function BlogListPage({ params }: Props) {
 
       {/* Posts grid + filter */}
       <section className="container-kunde py-16 lg:py-20">
-        <BlogCategoryFilter locale={lang} posts={posts} />
+        <BlogCategoryFilter locale={lang} posts={merged} />
       </section>
     </>
   );

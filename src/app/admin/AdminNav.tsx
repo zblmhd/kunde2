@@ -19,6 +19,15 @@ export function AdminNav() {
           <Link href="/admin/media" className="hover:text-yellow-300">
             媒体库
           </Link>
+          <Link href="/admin/bookings" className="hover:text-yellow-300">
+            预约管理
+          </Link>
+          <Link href="/admin/subscribers" className="hover:text-yellow-300">
+            订阅管理
+          </Link>
+          <Link href="/admin/insurance" className="hover:text-yellow-300">
+            保险验证
+          </Link>
         </div>
         <form action="/api/admin/logout" method="POST">
           <button

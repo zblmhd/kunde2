@@ -13,23 +13,61 @@ import {
   getPostsSortedByDate,
   getRelatedPosts,
   POST_CATEGORIES_EN,
+  type Post,
 } from '@/data/posts';
+import { getCmsPostBySlug } from '@/lib/store';
 
 interface Props {
   params: { lang: string; slug: string };
 }
 
-export function generateStaticParams() {
-  const posts = getPostsSortedByDate();
-  return locales.flatMap((lang) =>
-    posts.map((p) => ({ lang, slug: p.slug })),
-  );
+export const dynamic = 'force-dynamic';
+
+/** Convert CMS post to static Post shape */
+function cmsToPost(c: { slug: string; titleZh: string; titleEn: string; excerptZh: string; excerptEn: string; bodyZh: string; bodyEn: string; authorZh: string; authorEn: string; categoryZh: string; cover: string; createdAt: string }): Post {
+  return {
+    slug: c.slug,
+    date: c.createdAt.slice(0, 10),
+    categoriesZh: [c.categoryZh as '患者故事'],
+    authorSlug: 'dr-feng',
+    authorZh: c.authorZh,
+    authorEn: c.authorEn,
+    cover: c.cover || '/images/about-hero.svg',
+    coverAltZh: c.titleZh,
+    coverAltEn: c.titleEn,
+    titleZh: c.titleZh,
+    titleEn: c.titleEn,
+    excerptZh: c.excerptZh,
+    excerptEn: c.excerptEn,
+    readMinutes: Math.max(3, Math.ceil((c.bodyZh.length + c.bodyEn.length) / 1000)),
+    bodyZh: c.bodyZh,
+    bodyEn: c.bodyEn,
+    relatedConditionSlugs: [],
+    relatedMethodSlugs: [],
+    tagsZh: [c.categoryZh],
+    tagsEn: [c.categoryZh],
+  };
 }
 
-export function generateMetadata({ params }: Props): Metadata {
+async function resolvePost(slug: string): Promise<Post | null> {
+  // Try static posts first
+  const staticPost = getPost(slug);
+  if (staticPost) return staticPost;
+
+  // Then try CMS database
+  try {
+    const cmsPost = await getCmsPostBySlug(slug);
+    if (cmsPost) return cmsToPost(cmsPost);
+  } catch {
+    // DB unavailable
+  }
+  return null;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = params.lang as Locale;
   if (!locales.includes(lang)) return {};
-  const post = getPost(params.slug);
+  const post = await resolvePost(params.slug);
   if (!post) return {};
   const isZh = lang === 'zh';
   const title = isZh ? post.titleZh : post.titleEn;
@@ -46,10 +84,10 @@ export function generateMetadata({ params }: Props): Metadata {
   });
 }
 
-export default function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params }: Props) {
   const lang = params.lang as Locale;
   if (!locales.includes(lang)) notFound();
-  const post = getPost(params.slug);
+  const post = await resolvePost(params.slug);
   if (!post) notFound();
 
   const isZh = lang === 'zh';
@@ -59,7 +97,7 @@ export default function BlogPostPage({ params }: Props) {
   const tags = isZh ? post.tagsZh : post.tagsEn;
   const catLabel = isZh
     ? post.categoriesZh[0]
-    : POST_CATEGORIES_EN[post.categoriesZh[0]];
+    : POST_CATEGORIES_EN[post.categoriesZh[0]] ?? post.categoriesZh[0];
   const related = getRelatedPosts(post.slug);
 
   const breadcrumbs = isZh

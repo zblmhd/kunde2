@@ -210,3 +210,211 @@ export async function deleteCmsMedia(id: string): Promise<boolean> {
   if (error) throw new Error(`deleteCmsMedia: ${error.message}`);
   return (count ?? 0) > 0;
 }
+
+// ────────────────────────────────────────────────────────────────
+// Booking store
+// ────────────────────────────────────────────────────────────────
+
+export interface Booking {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  clinic: string;
+  symptoms: string;
+  preferredDate: string;
+  preferredTime: string;
+  status: 'pending' | 'confirmed' | 'cancelled';
+  createdAt: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToBooking(r: any): Booking {
+  return {
+    id: r.id,
+    name: r.name,
+    phone: r.phone,
+    email: r.email,
+    clinic: r.clinic,
+    symptoms: r.symptoms,
+    preferredDate: r.preferred_date,
+    preferredTime: r.preferred_time,
+    status: r.status,
+    createdAt: r.created_at,
+  };
+}
+
+export async function getAllBookings(): Promise<Booking[]> {
+  const { data, error } = await db
+    .from('bookings')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(`getAllBookings: ${error.message}`);
+  return (data ?? []).map(rowToBooking);
+}
+
+export async function createBooking(
+  item: Omit<Booking, 'id' | 'createdAt' | 'status'>,
+): Promise<Booking> {
+  const { data, error } = await db
+    .from('bookings')
+    .insert({
+      name: item.name,
+      phone: item.phone,
+      email: item.email,
+      clinic: item.clinic,
+      symptoms: item.symptoms,
+      preferred_date: item.preferredDate,
+      preferred_time: item.preferredTime,
+    })
+    .select()
+    .single();
+  if (error) throw new Error(`createBooking: ${error.message}`);
+  return rowToBooking(data);
+}
+
+export async function updateBookingStatus(
+  id: string,
+  status: 'pending' | 'confirmed' | 'cancelled',
+): Promise<boolean> {
+  const { error, count } = await db
+    .from('bookings')
+    .update({ status })
+    .eq('id', id);
+  if (error) throw new Error(`updateBookingStatus: ${error.message}`);
+  return (count ?? 0) > 0;
+}
+
+// ────────────────────────────────────────────────────────────────
+// Subscriber store
+// ────────────────────────────────────────────────────────────────
+
+export interface Subscriber {
+  id: string;
+  email: string;
+  subscribedAt: string;
+  active: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToSubscriber(r: any): Subscriber {
+  return {
+    id: r.id,
+    email: r.email,
+    subscribedAt: r.subscribed_at,
+    active: r.active,
+  };
+}
+
+export async function getAllSubscribers(): Promise<Subscriber[]> {
+  const { data, error } = await db
+    .from('subscribers')
+    .select('*')
+    .order('subscribed_at', { ascending: false });
+  if (error) throw new Error(`getAllSubscribers: ${error.message}`);
+  return (data ?? []).map(rowToSubscriber);
+}
+
+export async function addSubscriber(email: string): Promise<Subscriber> {
+  const { data, error } = await db
+    .from('subscribers')
+    .upsert({ email, active: true }, { onConflict: 'email' })
+    .select()
+    .single();
+  if (error) throw new Error(`addSubscriber: ${error.message}`);
+  return rowToSubscriber(data);
+}
+
+// ────────────────────────────────────────────────────────────────
+// CMS Posts — public query (for frontend blog pages)
+// ────────────────────────────────────────────────────────────────
+
+export async function getPublishedCmsPosts(): Promise<CmsPost[]> {
+  const { data, error } = await db
+    .from('cms_posts')
+    .select('*')
+    .eq('status', 'published')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(`getPublishedCmsPosts: ${error.message}`);
+  return (data ?? []).map(rowToPost);
+}
+
+// ────────────────────────────────────────────────────────────────
+// Insurance verification store
+// ────────────────────────────────────────────────────────────────
+
+export interface InsuranceVerification {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  dateOfBirth: string;
+  insuranceCompany: string;
+  memberId: string;
+  groupNumber: string;
+  notes: string;
+  status: 'pending' | 'verified' | 'denied';
+  createdAt: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function rowToInsurance(r: any): InsuranceVerification {
+  return {
+    id: r.id,
+    name: r.name,
+    phone: r.phone,
+    email: r.email,
+    dateOfBirth: r.date_of_birth,
+    insuranceCompany: r.insurance_company,
+    memberId: r.member_id,
+    groupNumber: r.group_number,
+    notes: r.notes,
+    status: r.status,
+    createdAt: r.created_at,
+  };
+}
+
+export async function getAllInsuranceVerifications(): Promise<InsuranceVerification[]> {
+  const { data, error } = await db
+    .from('insurance_verifications')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(`getAllInsuranceVerifications: ${error.message}`);
+  return (data ?? []).map(rowToInsurance);
+}
+
+export async function createInsuranceVerification(
+  item: Omit<InsuranceVerification, 'id' | 'createdAt' | 'status'>,
+): Promise<InsuranceVerification> {
+  const { data, error } = await db
+    .from('insurance_verifications')
+    .insert({
+      name: item.name,
+      phone: item.phone,
+      email: item.email,
+      date_of_birth: item.dateOfBirth,
+      insurance_company: item.insuranceCompany,
+      member_id: item.memberId,
+      group_number: item.groupNumber,
+      notes: item.notes,
+    })
+    .select()
+    .single();
+  if (error) throw new Error(`createInsuranceVerification: ${error.message}`);
+  return rowToInsurance(data);
+}
+
+// ────────────────────────────────────────────────────────────────
+// CMS Posts — public query (for frontend blog pages)
+// ────────────────────────────────────────────────────────────────
+
+export async function getCmsPostBySlug(slug: string): Promise<CmsPost | undefined> {
+  const { data, error } = await db
+    .from('cms_posts')
+    .select('*')
+    .eq('slug', slug)
+    .eq('status', 'published')
+    .maybeSingle();
+  if (error) throw new Error(`getCmsPostBySlug: ${error.message}`);
+  return data ? rowToPost(data) : undefined;
+}

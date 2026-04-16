@@ -3,7 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     formats: ['image/webp'],
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'qdatsbsgcmkmijfsjhjt.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
     // SVG placeholders are used in Step 2 until Envato photos are sourced.
     // contentDispositionType + CSP keep SVGs safe from embedded scripts.
     dangerouslyAllowSVG: true,

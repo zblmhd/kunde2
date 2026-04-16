@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Phone, Mail, Clock, Facebook, Instagram } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { dict } from '@/lib/i18n';
+import { NewsletterForm } from './NewsletterForm';
 
 interface FooterProps {
   locale: Locale;
@@ -106,25 +107,11 @@ export function Footer({ locale }: FooterProps) {
             {t.newsletterTitle}
           </h4>
           <p className="text-sm text-white/70 mb-4">{t.newsletterSub}</p>
-          <form
-            className="flex flex-col gap-2"
-            action="#"
-            method="post"
-            aria-label={t.newsletterTitle}
-          >
-            <input
-              type="email"
-              placeholder={t.newsletterPlaceholder}
-              className="w-full h-11 px-4 rounded-md bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-primary"
-              required
-            />
-            <button
-              type="submit"
-              className="h-11 rounded-md bg-primary hover:bg-primary-dark text-white font-semibold transition-colors"
-            >
-              {t.newsletterBtn}
-            </button>
-          </form>
+          <NewsletterForm
+            locale={locale}
+            placeholder={t.newsletterPlaceholder}
+            btnText={t.newsletterBtn}
+          />
           <p className="text-xs text-white/50 mt-2">{t.newsletterPrivacy}</p>
         </div>
 
