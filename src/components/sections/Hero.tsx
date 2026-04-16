@@ -18,8 +18,8 @@ export function Hero({ locale }: Props) {
   const isZh = locale === 'zh';
 
   return (
-    <section className="relative bg-header text-white overflow-hidden">
-      <div className="absolute inset-0 opacity-40">
+    <section className="relative text-white overflow-hidden">
+      <div className="absolute inset-0">
         <Image
           src="/images/clinic/reception-calligraphy.webp"
           alt={t.heroAlt}
@@ -29,6 +29,7 @@ export function Hero({ locale }: Props) {
           className="object-cover"
         />
       </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-black/10" />
       <div className="relative container-kunde py-20 lg:py-28">
         <div className="max-w-3xl">
           <p className="font-serif text-primary text-lg md:text-xl mb-4 italic">

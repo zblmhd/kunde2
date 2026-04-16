@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #c08b5c;
-  --color-primary-dark: #9a6f47;
-  --color-primary-light: #d4a373;
+  --color-primary: #C9A22A;
+  --color-primary-dark: #9E7B0F;
+  --color-primary-light: #DEC060;
   --color-header: #2c2319;
   --color-footer: #2c2319;
   --color-text: #3d2e24;
@@ -111,6 +111,15 @@ a:hover {
 }
 .blog-content strong {
   font-weight: 700;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Admin utility styles */

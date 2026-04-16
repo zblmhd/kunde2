@@ -41,7 +41,7 @@ export function DoctorBookingSection({ locale }: Props) {
                 }
                 fill
                 sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
-                className="object-cover"
+                className="object-cover object-top"
               />
             </div>
             <div className="p-5 flex-1 flex flex-col">

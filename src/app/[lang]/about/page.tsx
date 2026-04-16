@@ -71,8 +71,8 @@ export default function AboutPage({ params }: Props) {
       <JsonLd data={breadcrumbSchema(t.breadcrumbs)} />
 
       {/* Hero */}
-      <section className="relative bg-header text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-35">
+      <section className="relative text-white overflow-hidden">
+        <div className="absolute inset-0">
           <Image
             src="/images/clinic/waiting-room.webp"
             alt={t.heroAlt}
@@ -82,6 +82,7 @@ export default function AboutPage({ params }: Props) {
             className="object-cover"
           />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-black/10" />
         <div className="relative container-kunde py-16 lg:py-20">
           <Breadcrumbs items={t.breadcrumbs} className="mb-6" />
           <h1 className="font-serif text-3xl md:text-display leading-tight mb-6 max-w-4xl">
