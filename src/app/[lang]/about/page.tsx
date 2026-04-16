@@ -71,7 +71,7 @@ export default function AboutPage({ params }: Props) {
       <JsonLd data={breadcrumbSchema(t.breadcrumbs)} />
 
       {/* Hero */}
-      <section className="relative text-white overflow-hidden">
+      <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
           <Image
             src="/images/clinic/waiting-room.webp"
@@ -82,18 +82,20 @@ export default function AboutPage({ params }: Props) {
             className="object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-black/10" />
-        <div className="relative container-kunde py-16 lg:py-20">
-          <Breadcrumbs items={t.breadcrumbs} className="mb-6" />
-          <h1 className="font-serif text-3xl md:text-display leading-tight mb-6 max-w-4xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="relative container-kunde pb-12 pt-28 w-full">
+          <Breadcrumbs items={t.breadcrumbs} className="mb-5" />
+          <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
+          <h1
+            className="font-serif text-3xl md:text-display leading-tight mb-4 text-white max-w-4xl"
+            style={{ textShadow: '0 2px 16px rgba(0,0,0,0.5)' }}
+          >
             {t.h1}
           </h1>
-          <p className="text-body-lg text-white/90 max-w-3xl">{t.heroSub}</p>
-          <div className="mt-8">
-            <Button href={`/${lang}/contact#booking`} size="lg">
-              {isZh ? '预约咨询' : 'Book a Consultation'}
-            </Button>
-          </div>
+          <p className="text-body-lg text-white/90 max-w-3xl mb-6">{t.heroSub}</p>
+          <Button href={`/${lang}/contact#booking`} size="lg">
+            {isZh ? '预约咨询' : 'Book a Consultation'}
+          </Button>
         </div>
       </section>
 
