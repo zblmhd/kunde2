@@ -94,7 +94,7 @@ export default function ContactPage({ params }: Props) {
         <div className="absolute inset-0">
           <Image src="/images/hero-contact.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/10" />
         <div className="relative container-kunde pb-12 pt-28 w-full">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />
@@ -106,7 +106,7 @@ export default function ContactPage({ params }: Props) {
               ? '法拉盛中医诊所 — 坤德中医 5 家分店'
               : 'Acupuncture Flushing & Chinese Medicine Clinic Flushing — Kunde TCM 5 Locations'}
           </h1>
-          <p className="text-sm sm:text-body-lg text-white/75 max-w-3xl mb-5">
+          <p className="text-sm sm:text-body-lg text-white/75 max-w-3xl mb-5" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.4)' }}>
             {isZh
               ? '5 家分店遍布纽约，总有一家在您身边'
               : '5 locations across New York City and the Hudson Valley — one near you'}

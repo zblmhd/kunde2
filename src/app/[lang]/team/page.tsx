@@ -87,7 +87,7 @@ export default function TeamListPage({ params }: Props) {
             className="object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/10" />
         <div className="relative container-kunde pb-12 pt-28 w-full">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="h-px w-12 bg-[color:var(--color-primary)] mb-4" />

@@ -26,7 +26,7 @@ export const dict = {
     // Home
     home: {
       // Hero — SEO 4.1.1 8-point deployment
-      h1: '纽约中医诊所 · 纽约针灸诊所 — 坤德中医养生轩',
+      h1: '纽约中医针灸诊所 · 坤德中医养生轩',
       heroBanner:
         '从望、闻、问、切、诊到辨证论治、汤剂调理，我们致力于以心以术为每位患者提供无与伦比的中医药体验。',
       // First 100 words — keyword lock (from 4.1.1)

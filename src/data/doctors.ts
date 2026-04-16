@@ -424,8 +424,8 @@ export const doctors: Doctor[] = [
     ],
     languagesZh: ['普通话', '韩语', '英语'],
     languagesEn: ['Mandarin', 'Korean', 'English'],
-    image: '/images/doctors/chelsea-jin.svg',
-    imagePath: '/images/doctors/chelsea-jin.svg',
+    image: '/images/doctors/chelsea-jin.jpg',
+    imagePath: '/images/doctors/chelsea-jin.jpg',
     bookingUrl:
       'https://acuityscheduling.com/schedule.php?owner=26514875&calendarID=7045822',
     bioZh: [
