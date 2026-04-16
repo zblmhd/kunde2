@@ -79,7 +79,7 @@ export default function TeamListPage({ params }: Props) {
       <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
           <Image
-            src="/images/clinic/reception-overview.webp"
+            src="/images/hero-team.jpg"
             alt=""
             fill
             priority

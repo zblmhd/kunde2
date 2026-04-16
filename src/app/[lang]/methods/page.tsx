@@ -96,7 +96,7 @@ export default function MethodsListPage({ params }: Props) {
       {/* Hero */}
       <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
-          <Image src="/images/hero-methods.jpg" alt="" fill sizes="100vw" className="object-cover" />
+          <Image src="/images/hero-methods-list.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         <div className="relative container-kunde pb-12 pt-28 w-full">

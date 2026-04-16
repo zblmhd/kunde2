@@ -53,7 +53,6 @@ export function Hero({ locale }: Props) {
           {/* H1 主标题 */}
           <h1
             className="font-serif text-[1.9rem] sm:text-[2.4rem] md:text-[2.9rem] lg:text-[3.4rem] font-bold leading-tight mb-5 text-white"
-            style={{ textShadow: '0 3px 28px rgba(0,0,0,0.5)' }}
           >
             {t.h1}
           </h1>

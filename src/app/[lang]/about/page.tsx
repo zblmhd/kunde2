@@ -74,7 +74,7 @@ export default function AboutPage({ params }: Props) {
       <section className="relative overflow-hidden min-h-[420px] flex items-end">
         <div className="absolute inset-0">
           <Image
-            src="/images/clinic/waiting-room.webp"
+            src="/images/hero-about.jpg"
             alt={t.heroAlt}
             fill
             priority
@@ -120,7 +120,7 @@ export default function AboutPage({ params }: Props) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { src: '/images/clinic/reception-calligraphy.webp', alt: isZh ? '前台大医精诚' : 'Reception with calligraphy wall' },
-              { src: '/images/clinic/waiting-room.webp', alt: isZh ? '候诊区' : 'Waiting area' },
+              { src: '/images/hero-about.jpg', alt: isZh ? '候诊区' : 'Waiting area' },
               { src: '/images/clinic/entrance-sign.webp', alt: isZh ? '坤德中医养生轩招牌' : 'Kunde TCM entrance sign' },
               { src: '/images/clinic/corridor-plants.webp', alt: isZh ? '走廊绿植' : 'Corridor with plants' },
               { src: '/images/clinic/treatment-room-1.webp', alt: isZh ? '治疗室' : 'Treatment room' },
