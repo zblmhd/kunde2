@@ -23,14 +23,48 @@ export function MediaLibrary({ initialMedia }: Props) {
     setMedia(initialMedia);
   }, [initialMedia]);
 
+  /** Compress image on the client so it fits within Vercel's 4.5 MB body limit */
+  async function compressImage(file: File): Promise<File> {
+    if (file.type === 'image/svg+xml') return file;
+    return new Promise((resolve) => {
+      const img = new globalThis.Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const MAX = 1600;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          const r = Math.min(MAX / width, MAX / height);
+          width = Math.floor(width * r);
+          height = Math.floor(height * r);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d')!.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            const name = file.name.replace(/\.[^.]+$/, '.jpg');
+            resolve(new File([blob!], name, { type: 'image/jpeg' }));
+          },
+          'image/jpeg',
+          0.85,
+        );
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+      img.src = url;
+    });
+  }
+
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     setUploading(true);
     setUploadError('');
     let successCount = 0;
     for (const file of Array.from(files)) {
+      const compressed = await compressImage(file);
       const form = new FormData();
-      form.append('file', file);
+      form.append('file', compressed);
       try {
         const res = await fetch('/api/admin/upload', { method: 'POST', body: form });
         if (res.ok) {
