@@ -55,6 +55,30 @@ const iconMap: Record<string, LucideIcon> = {
   Stethoscope,
 };
 
+/** 为每个病症分配不同的高清hero图片 */
+const conditionHeroMap: Record<string, string> = {
+  // 针灸背部治疗 — 痛症 / 骨伤 / 面瘫 / 疑难杂症
+  'pain-management': '/images/conditions/hero/acupuncture-back.jpg',
+  'muscle-tendon': '/images/conditions/hero/acupuncture-back.jpg',
+  'facial-palsy': '/images/conditions/hero/acupuncture-back.jpg',
+  'complex-conditions': '/images/conditions/hero/acupuncture-back.jpg',
+  // 针灸特写 — 助孕 / 失眠 / 焦虑
+  'fertility': '/images/conditions/hero/acupuncture-closeup.jpg',
+  'insomnia': '/images/conditions/hero/acupuncture-closeup.jpg',
+  'anxiety-depression': '/images/conditions/hero/acupuncture-closeup.jpg',
+  // 中药配方 — 消化 / 呼吸 / 糖尿 / 三高
+  'digestive-health': '/images/conditions/hero/herbal-medicine.jpg',
+  'respiratory-health': '/images/conditions/hero/herbal-medicine.jpg',
+  'diabetes': '/images/conditions/hero/herbal-medicine.jpg',
+  'hypertension': '/images/conditions/hero/herbal-medicine.jpg',
+  // 艾灸 — 妇科 / 男科
+  'womens-health': '/images/conditions/hero/moxibustion.jpg',
+  'mens-health': '/images/conditions/hero/moxibustion.jpg',
+  // 推拿按摩 — 美容 / 减重
+  'herbal-beauty': '/images/conditions/hero/massage-tuina.jpg',
+  'weight-loss': '/images/conditions/hero/massage-tuina.jpg',
+};
+
 interface Props {
   params: { lang: string; slug: string };
 }
@@ -148,7 +172,7 @@ export default function ConditionDetailPage({ params }: Props) {
       <section className="relative overflow-hidden min-h-[480px] flex items-end">
         <div className="absolute inset-0">
           <Image
-            src="/images/clinic/treatment-room-1.webp"
+            src={conditionHeroMap[cond.slug] || '/images/conditions/hero/acupuncture-back.jpg'}
             alt={`${name} — ${isZh ? '坤德中医养生轩 · 纽约中医诊所' : 'Kunde TCM · Acupuncture Clinic NYC'}`}
             fill
             priority
@@ -156,7 +180,7 @@ export default function ConditionDetailPage({ params }: Props) {
             className="object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/45 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/20" />
         <div className="relative container-kunde pb-12 pt-28 w-full">
           <Breadcrumbs items={breadcrumbs} className="mb-5" />
           <div className="flex items-center gap-3 mb-4">
@@ -174,7 +198,7 @@ export default function ConditionDetailPage({ params }: Props) {
           >
             {name}
           </h1>
-          <p className="text-sm sm:text-body-lg text-white/70 max-w-3xl mb-6 italic">
+          <p className="text-sm sm:text-body-lg text-white/80 max-w-3xl mb-6 italic" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>
             {tagline}
           </p>
           <div className="flex flex-wrap gap-3">
