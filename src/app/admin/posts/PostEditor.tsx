@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { CmsPost } from '@/lib/store';
-import { POST_CATEGORIES_ZH } from '@/data/posts';
+import { POST_CATEGORIES_ZH, POST_CATEGORIES_EN } from '@/data/posts';
 
 type Mode = 'rich' | 'code';
 type Lang = 'zh' | 'en';
@@ -30,6 +30,11 @@ export function PostEditor({ post }: Props) {
     titleEn: post?.titleEn ?? '',
     slug: post?.slug ?? '',
     categoryZh: post?.categoryZh ?? '患者故事',
+    categoryEn: post?.categoryEn ?? 'Patient Stories',
+    tagsZh: post?.tagsZh ?? '',
+    tagsEn: post?.tagsEn ?? '',
+    keywordsZh: post?.keywordsZh ?? '',
+    keywordsEn: post?.keywordsEn ?? '',
     authorZh: post?.authorZh ?? '馮羅小潔 医生',
     authorEn: post?.authorEn ?? 'Dr. Serene Feng, DAOM',
     cover: post?.cover ?? '/images/about-hero.svg',
@@ -43,6 +48,15 @@ export function PostEditor({ post }: Props) {
     metaTitleEn: post?.metaTitleEn ?? '',
     metaDescEn: post?.metaDescEn ?? '',
   });
+
+  /** 选择中文分类时自动填入对应英文分类 */
+  function handleCategoryZhChange(zh: string) {
+    setForm((f) => ({
+      ...f,
+      categoryZh: zh,
+      categoryEn: POST_CATEGORIES_EN[zh as keyof typeof POST_CATEGORIES_EN] ?? f.categoryEn,
+    }));
+  }
 
   function set(key: keyof typeof form, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -103,16 +117,33 @@ export function PostEditor({ post }: Props) {
               placeholder="my-article-slug"
             />
           </F>
-          <F label="分类">
-            <select
+          <F label="分类（中文）">
+            <input
               className="admin-input"
+              list="categories-zh-list"
               value={form.categoryZh}
-              onChange={(e) => set('categoryZh', e.target.value)}
-            >
+              onChange={(e) => handleCategoryZhChange(e.target.value)}
+              placeholder="选择或输入自定义分类"
+            />
+            <datalist id="categories-zh-list">
               {POST_CATEGORIES_ZH.map((c) => (
-                <option key={c}>{c}</option>
+                <option key={c} value={c} />
               ))}
-            </select>
+            </datalist>
+          </F>
+          <F label="Category (EN)">
+            <input
+              className="admin-input"
+              list="categories-en-list"
+              value={form.categoryEn}
+              onChange={(e) => set('categoryEn', e.target.value)}
+              placeholder="Select or enter custom category"
+            />
+            <datalist id="categories-en-list">
+              {Object.values(POST_CATEGORIES_EN).map((c) => (
+                <option key={c} value={c} />
+              ))}
+            </datalist>
           </F>
           <F label="作者（中文）">
             <input
@@ -134,6 +165,45 @@ export function PostEditor({ post }: Props) {
               value={form.cover}
               onChange={(e) => set('cover', e.target.value)}
               placeholder="/uploads/..."
+            />
+          </F>
+        </div>
+      </div>
+
+      {/* Tags & Keywords */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm space-y-4">
+        <h2 className="font-bold text-base border-b pb-2">标签 &amp; 关键词</h2>
+        <div className="grid md:grid-cols-2 gap-4">
+          <F label="标签（中文，多个用英文逗号分开）">
+            <input
+              className="admin-input"
+              value={form.tagsZh}
+              onChange={(e) => set('tagsZh', e.target.value)}
+              placeholder="针灸,失眠,中医"
+            />
+          </F>
+          <F label="Tags (EN, separate with commas)">
+            <input
+              className="admin-input"
+              value={form.tagsEn}
+              onChange={(e) => set('tagsEn', e.target.value)}
+              placeholder="acupuncture,insomnia,TCM"
+            />
+          </F>
+          <F label="关键词（中文，多个用英文逗号分开）">
+            <input
+              className="admin-input"
+              value={form.keywordsZh}
+              onChange={(e) => set('keywordsZh', e.target.value)}
+              placeholder="针灸治疗失眠,温哥华中医"
+            />
+          </F>
+          <F label="Keywords (EN, separate with commas)">
+            <input
+              className="admin-input"
+              value={form.keywordsEn}
+              onChange={(e) => set('keywordsEn', e.target.value)}
+              placeholder="acupuncture for insomnia,Vancouver TCM"
             />
           </F>
         </div>

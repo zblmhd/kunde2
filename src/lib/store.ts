@@ -19,6 +19,11 @@ export interface CmsPost {
   titleEn: string;
   slug: string;
   categoryZh: string;
+  categoryEn: string;
+  tagsZh: string;       // comma-separated
+  tagsEn: string;       // comma-separated
+  keywordsZh: string;   // comma-separated
+  keywordsEn: string;   // comma-separated
   authorZh: string;
   authorEn: string;
   cover: string;
@@ -58,6 +63,11 @@ function rowToPost(r: any): CmsPost {
     titleEn: r.title_en,
     slug: r.slug,
     categoryZh: r.category_zh,
+    categoryEn: r.category_en ?? '',
+    tagsZh: r.tags_zh ?? '',
+    tagsEn: r.tags_en ?? '',
+    keywordsZh: r.keywords_zh ?? '',
+    keywordsEn: r.keywords_en ?? '',
     authorZh: r.author_zh,
     authorEn: r.author_en,
     cover: r.cover,
@@ -81,6 +91,11 @@ function postToRow(p: Partial<CmsPost>) {
   if (p.titleEn !== undefined) row.title_en = p.titleEn;
   if (p.slug !== undefined) row.slug = p.slug;
   if (p.categoryZh !== undefined) row.category_zh = p.categoryZh;
+  if (p.categoryEn !== undefined) row.category_en = p.categoryEn;
+  if (p.tagsZh !== undefined) row.tags_zh = p.tagsZh;
+  if (p.tagsEn !== undefined) row.tags_en = p.tagsEn;
+  if (p.keywordsZh !== undefined) row.keywords_zh = p.keywordsZh;
+  if (p.keywordsEn !== undefined) row.keywords_en = p.keywordsEn;
   if (p.authorZh !== undefined) row.author_zh = p.authorZh;
   if (p.authorEn !== undefined) row.author_en = p.authorEn;
   if (p.cover !== undefined) row.cover = p.cover;
