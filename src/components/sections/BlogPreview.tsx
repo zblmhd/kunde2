@@ -16,7 +16,11 @@ export async function BlogPreview({ locale }: Props) {
   const isZh = locale === 'zh';
 
   // Merge static posts + CMS posts, deduplicate by slug, sort by date desc
-  const staticPosts = getPostsSortedByDate().map((p) => ({
+  const staticPosts: {
+    slug: string; titleZh: string; titleEn: string;
+    excerptZh: string; excerptEn: string;
+    category: string; date: string; cover: string;
+  }[] = getPostsSortedByDate().map((p) => ({
     slug: p.slug,
     titleZh: p.titleZh,
     titleEn: p.titleEn,
@@ -27,7 +31,11 @@ export async function BlogPreview({ locale }: Props) {
     cover: p.cover,
   }));
 
-  let cmsPosts: typeof staticPosts = [];
+  let cmsPosts: {
+    slug: string; titleZh: string; titleEn: string;
+    excerptZh: string; excerptEn: string;
+    category: string; date: string; cover: string;
+  }[] = [];
   try {
     const raw = await getPublishedCmsPosts();
     cmsPosts = raw.map((p) => ({
