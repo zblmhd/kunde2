@@ -8,7 +8,24 @@ export const metadata: Metadata = { title: '文章管理' };
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPostsPage() {
-  const posts = await getAllCmsPosts();
+  let posts: Awaited<ReturnType<typeof getAllCmsPosts>> = [];
+  try {
+    posts = await getAllCmsPosts();
+  } catch (err) {
+    console.error('AdminPostsPage error:', err);
+    return (
+      <>
+        <AdminNav />
+        <main className="max-w-6xl mx-auto px-4 py-8">
+          <h1 className="text-2xl font-bold font-serif mb-6">文章管理</h1>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+            <p className="text-red-600">加载文章失败，请刷新页面重试。</p>
+            <p className="text-red-400 text-sm mt-2">{String(err)}</p>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
