@@ -10,12 +10,10 @@ import { WhyChooseKunde } from '@/components/sections/WhyChooseKunde';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { BlogPreview } from '@/components/sections/BlogPreview';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { FAQSection } from '@/components/sections/FAQSection';
 import { locales, type Locale, dict } from '@/lib/i18n';
 import {
   medicalBusinessSchema,
   breadcrumbSchema,
-  faqPageSchema,
 } from '@/lib/schema';
 import { pageMetadata } from '@/lib/seo';
 
@@ -82,15 +80,10 @@ export default function HomePage({ params }: Props) {
     },
   ];
 
-  // FAQ Schema (4.1.1 E) — three high-intent questions per locale, fed
-  // directly to ChatGPT / Perplexity / Google SGE.
-  const faqs = dict[lang].home.faqs;
-
   return (
     <>
       <JsonLd data={medicalBusinessSchema(lang)} />
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
-      <JsonLd data={faqPageSchema(faqs)} />
 
       <Hero locale={lang} />
       <StatsSection locale={lang} />
@@ -99,7 +92,6 @@ export default function HomePage({ params }: Props) {
       <DoctorBookingSection locale={lang} />
       <WhyChooseKunde locale={lang} />
       <TestimonialsSection locale={lang} />
-      <FAQSection locale={lang} />
       <BlogPreview locale={lang} />
 
       <CTABanner

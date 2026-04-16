@@ -13,9 +13,6 @@ export function getNavItems(locale: Locale) {
     { label: t.beauty, href: `${prefix}/beauty` },
     { label: t.blog, href: `${prefix}/blog` },
     { label: t.newPatients, href: `${prefix}/new-patients` },
-    // 4.1.1 C — top-level "法拉盛分店 / Flushing Locations" entry deep-links
-    // to the Contact page anchor where the 5-clinic list lives.
-    { label: t.locations, href: `${prefix}/contact#locations` },
     { label: t.contact, href: `${prefix}/contact` },
   ];
 }
