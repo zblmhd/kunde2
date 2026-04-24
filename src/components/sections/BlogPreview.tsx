@@ -13,7 +13,18 @@ export async function BlogPreview({ locale }: Props) {
   const t = dict[locale].home;
   const isZh = locale === 'zh';
 
-  const staticPosts = getPostsSortedByDate().map((p) => ({
+  type PostPreview = {
+    slug: string;
+    titleZh: string;
+    titleEn: string;
+    excerptZh: string;
+    excerptEn: string;
+    category: string;
+    date: string;
+    cover: string;
+  };
+
+  const staticPosts: PostPreview[] = getPostsSortedByDate().map((p) => ({
     slug: p.slug,
     titleZh: p.titleZh,
     titleEn: p.titleEn,
@@ -24,7 +35,7 @@ export async function BlogPreview({ locale }: Props) {
     cover: p.cover,
   }));
 
-  let cmsPosts: typeof staticPosts = [];
+  let cmsPosts: PostPreview[] = [];
   try {
     const raw = await getPublishedCmsPosts();
     cmsPosts = raw.map((p) => ({
