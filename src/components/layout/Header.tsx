@@ -46,17 +46,19 @@ export function Header({ locale }: HeaderProps) {
             </nav>
 
             <div className="flex items-center gap-3 shrink-0">
+              {/* Phone button — desktop only */}
               <Link
                 href={`/${locale}/contact#booking`}
-                className="kd-btn kd-btn--gold kd-btn--sm hidden md:inline-flex"
+                className="kd-btn kd-btn--gold kd-btn--sm kd-phone-btn"
               >
                 <Phone className="h-3.5 w-3.5" />
                 (718) 888-9087
               </Link>
 
+              {/* CN/EN toggle — always visible (mobile replaces the phone button with this) */}
               <Link
                 href={`/${other}`}
-                className="hidden sm:inline-flex items-center gap-1.5 h-[38px] px-3 text-[12px] text-[color:var(--ink-800)] border border-[color:var(--gold-700)] rounded-full hover:bg-[color:var(--gold-700)]/10 font-sans"
+                className="inline-flex items-center gap-1.5 h-[38px] px-3 text-[12px] text-[color:var(--ink-800)] border border-[color:var(--gold-700)] rounded-full hover:bg-[color:var(--gold-700)]/10 font-sans"
                 aria-label={`Switch to ${other === 'zh' ? '中文' : 'English'}`}
               >
                 <Globe className="h-3.5 w-3.5" />

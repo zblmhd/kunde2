@@ -622,7 +622,7 @@ a:hover { color: var(--gold-900); }
   }
   .kd-way-side__cn,
   .kd-way-side__en { writing-mode: horizontal-tb; }
-  .kd-value { border-left: none; border-top: 1px solid var(--line-warm); }
+  .kd-value { border-left: none; }
 }
 
 /* ========= Services dark panel ========= */
@@ -1270,6 +1270,8 @@ a:hover { color: var(--gold-900); }
   .kd-header-row { height: 60px; gap: 12px; }
   .kd-brand-logo { height: 40px; }
   .kd-nav { display: none; }
+  /* Phone CTA is desktop-only — swap for CN/EN toggle on mobile */
+  .kd-phone-btn { display: none !important; }
 
   /* ---- Announcement ---- */
   .kd-announcement { font-size: 11px; letter-spacing: 0.03em; }
@@ -1294,6 +1296,11 @@ a:hover { color: var(--gold-900); }
   .kd-hero {
     min-height: unset;
     padding-bottom: 16px;
+  }
+  /* Shift the photo crop on mobile so the misty mountains (left of image)
+     are visible along with part of the meditating elder (right). */
+  .kd-hero__bg img {
+    object-position: 22% center !important;
   }
   .kd-hero__inner {
     grid-template-columns: 1fr;
@@ -1340,16 +1347,16 @@ a:hover { color: var(--gold-900); }
     grid-column: 1 / -1;
     flex-direction: row;
     gap: 12px;
-    padding: 18px 0 6px;
-    border-bottom: 1px solid var(--line-warm);
+    padding: 18px 0 12px;
     margin-bottom: 6px;
+    /* No dividing line under the label on mobile */
   }
   .kd-way-side__cn,
   .kd-way-side__en { writing-mode: horizontal-tb; }
   .kd-way-side__cn { font-size: 22px; letter-spacing: 0.2em; }
   .kd-way-side__en { font-size: 10px; letter-spacing: 0.2em; }
   .kd-value { padding: 22px 10px 16px; border-left: none; }
-  .kd-value:nth-child(odd) { border-right: 1px solid var(--line-warm); }
+  /* No side divider between value cells on mobile */
   .kd-value:not(:nth-last-child(-n+2)) { border-bottom: 1px solid var(--line-warm); }
   .kd-value__ring {
     width: 60px;
@@ -1430,8 +1437,17 @@ a:hover { color: var(--gold-900); }
   .kd-cta p { font-size: 13.5px; margin-bottom: 22px; }
 
   /* ---- Footer ---- */
-  /* The Footer still uses legacy Tailwind classes (md:grid-cols-2 / lg:grid-cols-4)
-     — those already collapse cleanly on mobile. Just tighten spacing. */
+  /* Hide the Brand column (1st) and Social+Legal column (4th) on mobile.
+     Keep Quick-contact (2nd) and Newsletter (3rd). */
+  footer.bg-footer > div.container-kunde.py-12 > div:nth-child(1),
+  footer.bg-footer > div.container-kunde.py-12 > div:nth-child(4) {
+    display: none !important;
+  }
+
+  /* ---- Announcement bar: drop the 立即预约 → link on mobile ---- */
+  .kd-announcement > .kd-container > a {
+    display: none;
+  }
 }
 
 /* Extra-small screens */

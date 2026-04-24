@@ -387,7 +387,7 @@ export const dict = {
     // Buttons
     bookNow: '立即预约',
     learnMore: '了解更多',
-    callNow: '电话预约',
+    callNow: '电话咨询',
 
     // Footer
     footer: {
