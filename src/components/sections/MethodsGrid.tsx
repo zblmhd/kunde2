@@ -1,30 +1,8 @@
 import Link from 'next/link';
-import {
-  Activity,
-  Leaf,
-  Gem,
-  Hand,
-  Circle,
-  Flame,
-  Sun,
-  Droplet,
-  ArrowRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/Button';
+import Image from 'next/image';
 import type { Locale } from '@/lib/i18n';
 import { dict } from '@/lib/i18n';
 import { methodsPreview } from '@/data/methods-preview';
-
-const iconMap = {
-  Activity,
-  Leaf,
-  Gem,
-  Hand,
-  Circle,
-  Flame,
-  Sun,
-  Droplet,
-} as const;
 
 interface Props {
   locale: Locale;
@@ -33,44 +11,48 @@ interface Props {
 export function MethodsGrid({ locale }: Props) {
   const t = dict[locale].home;
   const isZh = locale === 'zh';
+
   return (
-    <section className="container-kunde py-16 lg:py-20">
-      <div className="text-center mb-12">
-        <h2 className="font-serif text-h2 mb-3">{t.methodsTitle}</h2>
-        <p className="text-[color:var(--color-text-muted)] max-w-2xl mx-auto">
-          {t.methodsSub}
-        </p>
-      </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {methodsPreview.map((m) => {
-          const Icon = iconMap[m.icon as keyof typeof iconMap] ?? Activity;
-          return (
+    <section className="kd-services kd-section" aria-label={isZh ? '傳統中醫特色療法' : 'Treatments'}>
+      <div className="kd-container">
+        <div className="kd-section__head kd-section__head--dark">
+          <span className="kd-eyebrow" style={{ color: 'var(--gold-500)' }}>
+            {isZh ? '治療方法' : 'Treatments'}
+          </span>
+          <h2>{isZh ? '傳統中醫特色療法' : 'Classical Therapies'}</h2>
+          <p>{t.methodsSub}</p>
+          <Link
+            href={`/${locale}/methods`}
+            className="kd-link-gold"
+            style={{ color: 'var(--gold-400)', borderColor: 'var(--gold-600)' }}
+          >
+            {t.methodsCta} →
+          </Link>
+        </div>
+
+        <div className="kd-services__grid">
+          {methodsPreview.map((m) => (
             <Link
               key={m.slug}
               href={`/${locale}/methods/${m.slug}`}
-              className="group block bg-white border border-border rounded-lg p-6 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
+              className="kd-service-card"
+              aria-label={isZh ? m.nameZh : m.nameEn}
             >
-              <div className="w-12 h-12 rounded-full bg-cream flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
-                <Icon className="w-6 h-6 text-primary-dark" />
+              <Image
+                src={`/images/methods/${m.slug}.jpg`}
+                alt=""
+                fill
+                sizes="(max-width: 900px) 50vw, 22vw"
+                className="kd-service-card__img"
+              />
+              <div className="kd-service-card__veil" />
+              <div className="kd-service-card__body">
+                <h3 className="kd-service-card__title">{isZh ? m.nameZh : m.nameEn}</h3>
+                <p className="kd-service-card__desc">{isZh ? m.taglineZh : m.taglineEn}</p>
               </div>
-              <h3 className="font-serif text-xl mb-2">
-                {isZh ? m.nameZh : m.nameEn}
-              </h3>
-              <p className="text-sm text-[color:var(--color-text-muted)] mb-3">
-                {isZh ? m.taglineZh : m.taglineEn}
-              </p>
-              <span className="text-sm text-primary-dark font-semibold inline-flex items-center gap-1">
-                {isZh ? '了解详情' : 'Learn more'}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </span>
             </Link>
-          );
-        })}
-      </div>
-      <div className="text-center mt-10">
-        <Button href={`/${locale}/methods`} variant="secondary" size="lg">
-          {t.methodsCta}
-        </Button>
+          ))}
+        </div>
       </div>
     </section>
   );

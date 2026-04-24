@@ -6,21 +6,21 @@ type Variant = 'primary' | 'secondary' | 'ghost';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-serif font-semibold tracking-[0.08em] rounded-sm transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none relative';
+  'inline-flex items-center justify-center gap-2 font-semibold rounded-md transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-[color:var(--color-forest)] text-[color:var(--color-bg-cream)] hover:bg-[color:var(--color-forest-deep)] border border-[color:var(--color-forest)] hover:border-[color:var(--color-forest-deep)] shadow-[0_1px_0_rgba(255,255,255,0.08)_inset,0_6px_14px_-6px_rgba(19,38,31,0.5)]',
+    'bg-primary text-white hover:bg-primary-dark border border-primary hover:border-primary-dark',
   secondary:
-    'bg-transparent text-[color:var(--color-text)] border border-[color:var(--color-primary)] hover:bg-[color:var(--color-primary)]/10',
+    'bg-white text-[color:var(--color-text)] border border-primary hover:bg-cream',
   ghost:
-    'bg-transparent text-[color:var(--color-text)] hover:text-primary',
+    'bg-transparent text-[color:var(--color-text)] hover:text-primary-light',
 };
 
 const sizes: Record<Size, string> = {
   sm: 'h-9 px-4 text-sm',
   md: 'h-11 px-6 text-base',
-  lg: 'h-12 px-8 text-base',
+  lg: 'h-13 px-8 text-base py-3',
 };
 
 interface CommonProps {
@@ -42,7 +42,7 @@ interface LinkButtonProps extends CommonProps {
   rel?: string;
 }
 
-export const Button = forwardRef<
+export const ButtonMobile = forwardRef<
   HTMLButtonElement,
   ButtonProps | LinkButtonProps
 >(function Button(props, ref) {

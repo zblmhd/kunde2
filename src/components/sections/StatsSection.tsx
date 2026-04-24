@@ -7,19 +7,30 @@ interface Props {
 
 export function StatsSection({ locale }: Props) {
   const t = dict[locale].home;
+  const isZh = locale === 'zh';
+
+  const defaultDescs = [
+    isZh ? '紮根紐約，持續精進' : 'Deep roots in NY',
+    isZh ? '覆蓋法拉盛與曼哈頓' : 'Flushing · Manhattan',
+    isZh ? '紐約州執照資質' : 'Licensed practitioners',
+    isZh ? '主流商保直接受理' : 'Insurance accepted',
+  ];
+
   return (
-    <section className="bg-cream border-y border-border">
-      <div className="container-kunde py-12 lg:py-16">
-        <h2 className="font-serif text-h2 text-center mb-10">{t.statsTitle}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {t.stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="font-serif text-4xl md:text-5xl text-primary-dark font-bold mb-2">
-                {s.value}
-              </div>
-              <div className="text-sm md:text-base text-[color:var(--color-text-muted)]">
-                {s.label}
-              </div>
+    <section className="kd-values kd-section--sm" aria-label={isZh ? '中醫之道' : 'The Way of TCM'}>
+      <div className="kd-container">
+        <div className="kd-values__grid">
+          {/* Inline vertical label — no border, sits in the same grid row as the value cards */}
+          <div className="kd-way-side" aria-hidden>
+            <div className="kd-way-side__cn">中醫之道</div>
+            <div className="kd-way-side__en">THE WAY OF CURE</div>
+          </div>
+
+          {t.stats.map((s, i) => (
+            <div key={s.label} className="kd-value">
+              <div className="kd-value__ring" aria-hidden>{s.value}</div>
+              <div className="kd-value__title">{s.label}</div>
+              <div className="kd-value__desc">{defaultDescs[i] ?? ''}</div>
             </div>
           ))}
         </div>

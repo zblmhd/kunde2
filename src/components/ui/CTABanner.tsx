@@ -1,4 +1,5 @@
-import { Button } from './Button';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface CTABannerProps {
   title: string;
@@ -18,28 +19,34 @@ export function CTABanner({
   secondaryHref,
 }: CTABannerProps) {
   return (
-    <section className="bg-header text-white">
-      <div className="container-kunde py-16 text-center">
-        <h2 className="font-serif text-h2 text-white mb-4">{title}</h2>
-        {subtitle && (
-          <p className="text-body-lg text-white/80 max-w-3xl mx-auto mb-8">
-            {subtitle}
-          </p>
-        )}
-        <div className="flex flex-wrap justify-center gap-4">
-          <Button href={primaryHref} variant="primary" size="lg">
-            {primaryLabel}
-          </Button>
-          {secondaryLabel && secondaryHref && (
-            <Button
-              href={secondaryHref}
-              variant="secondary"
-              size="lg"
-              className="!bg-transparent !text-white !border-white hover:!bg-white/10"
-            >
-              {secondaryLabel}
-            </Button>
-          )}
+    <section className="kd-cta" aria-label={title}>
+      <div className="kd-cta__veil" />
+
+      <div className="kd-container">
+        <div className="kd-cta__inner">
+          {/* Real clinic logo watermark */}
+          <div className="kd-cta__logo">
+            <Image
+              src="/images/logo/kunde-logo.png"
+              alt="坤德中醫養生軒 · Kunde TCM"
+              width={260}
+              height={72}
+              className="kd-cta__logo-img"
+            />
+          </div>
+
+          <h2>{title}</h2>
+          {subtitle && <p>{subtitle}</p>}
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href={primaryHref} className="kd-btn kd-btn--gold">
+              {primaryLabel} →
+            </Link>
+            {secondaryLabel && secondaryHref && (
+              <Link href={secondaryHref} className="kd-btn kd-btn--outline-light">
+                {secondaryLabel}
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>

@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
 import type { Locale } from '@/lib/i18n';
 import { dict } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
@@ -10,45 +9,67 @@ import { cn } from '@/lib/utils';
 export function AnnouncementBar({ locale }: { locale: Locale }) {
   const t = dict[locale];
   const [visible, setVisible] = useState(true);
-  const lastScrollY = useRef(0);
+  const lastY = useRef(0);
+  const ticking = useRef(false);
+  // Cooldown after toggling — prevents the layout-shift feedback loop
+  // (collapsing the bar changes document height, which fires another
+  // scroll event, which would otherwise toggle again).
+  const cooldownUntil = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      if (currentY < 60) {
-        setVisible(true);
-      } else if (currentY > lastScrollY.current + 5) {
-        setVisible(false); // 向下滚动：隐藏
-      } else if (currentY < lastScrollY.current - 5) {
-        setVisible(true); // 向上滚动：显示
+    lastY.current = window.scrollY;
+    setVisible(window.scrollY < 60);
+
+    const evaluate = () => {
+      ticking.current = false;
+      const now = Date.now();
+      if (now < cooldownUntil.current) return;
+
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+
+      if (y < 60) {
+        setVisible((prev) => {
+          if (!prev) cooldownUntil.current = now + 450;
+          return true;
+        });
+      } else if (delta > 20) {
+        setVisible((prev) => {
+          if (prev) cooldownUntil.current = now + 450;
+          return false;
+        });
+        lastY.current = y;
+      } else if (delta < -20) {
+        setVisible((prev) => {
+          if (!prev) cooldownUntil.current = now + 450;
+          return true;
+        });
+        lastY.current = y;
       }
-      lastScrollY.current = currentY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      if (!ticking.current) {
+        ticking.current = true;
+        requestAnimationFrame(evaluate);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
     <div
       className={cn(
-        'bg-header text-white text-sm overflow-hidden transition-all duration-300',
+        'kd-announcement overflow-hidden transition-all duration-300 ease-out',
         visible ? 'max-h-12 opacity-100' : 'max-h-0 opacity-0',
       )}
     >
-      <div className="container-kunde flex items-center justify-center gap-3 py-2 text-center">
-        <span className="hidden sm:inline text-white/90">{t.announcement}</span>
-        <span className="sm:hidden text-white/90">
-          {locale === 'zh'
-            ? '5 家分店 · 接受主流保险'
-            : '5 Locations · Insurance Accepted'}
-        </span>
-        <Link
-          href={`/${locale}/contact#booking`}
-          className="inline-flex items-center gap-1 text-primary hover:text-primary-light font-semibold whitespace-nowrap"
-        >
-          {t.announcementCta}
-          <ChevronRight className="h-4 w-4" />
+      <div className="kd-container flex items-center justify-center gap-3 text-center">
+        <span>{t.announcement}</span>
+        <Link href={`/${locale}/contact#booking`}>
+          {t.announcementCta} →
         </Link>
       </div>
     </div>

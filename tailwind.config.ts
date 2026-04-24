@@ -15,6 +15,15 @@ const config: Config = {
         },
         header: 'var(--color-header)',
         footer: 'var(--color-footer)',
+        forest: {
+          DEFAULT: 'var(--color-forest)',
+          deep: 'var(--color-forest-deep)',
+        },
+        seal: {
+          DEFAULT: 'var(--color-seal)',
+          deep: 'var(--color-seal-deep)',
+        },
+        paper: 'var(--color-bg-paper)',
         text: {
           DEFAULT: 'var(--color-text)',
           muted: 'var(--color-text-muted)',
