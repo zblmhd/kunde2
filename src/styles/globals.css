@@ -1256,6 +1256,196 @@ a:hover { color: var(--gold-900); }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 
+/* =========================================================
+   Mobile unified refinements (< 900px) — match desktop design system
+   ========================================================= */
+@media (max-width: 900px) {
+  :root { --pad-x: 20px; }
+  body { font-size: 14px; line-height: 1.7; }
+
+  /* Container */
+  .kd-container { padding-inline: 20px; }
+
+  /* ---- Header ---- */
+  .kd-header-row { height: 60px; gap: 12px; }
+  .kd-brand-logo { height: 40px; }
+  .kd-nav { display: none; }
+
+  /* ---- Announcement ---- */
+  .kd-announcement { font-size: 11px; letter-spacing: 0.03em; }
+  .kd-announcement > .kd-container {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    gap: 8px !important;
+    flex-wrap: wrap;
+  }
+
+  /* ---- Section paddings ---- */
+  .kd-section { padding-block: 48px; }
+  .kd-section--sm { padding-block: 36px; }
+  .kd-section__head { margin-bottom: 28px; }
+  .kd-section__head h2 {
+    font-size: 24px;
+    letter-spacing: 0.06em;
+  }
+  .kd-section__head p { font-size: 13.5px; line-height: 1.75; }
+
+  /* ---- Hero ---- */
+  .kd-hero {
+    min-height: unset;
+    padding-bottom: 16px;
+  }
+  .kd-hero__inner {
+    grid-template-columns: 1fr;
+    padding-block: 36px 32px;
+    gap: 0;
+  }
+  /* Stronger wash on mobile so text over bg image stays readable */
+  .kd-hero__wash {
+    background:
+      linear-gradient(180deg, rgba(236,228,216,0.97) 0%, rgba(236,228,216,0.88) 55%, rgba(236,228,216,0.5) 100%);
+  }
+  .kd-hero__text { max-width: 100%; }
+  .kd-hero__title-row { margin-top: 18px; margin-bottom: 16px; }
+  .kd-h1 { font-size: 38px; line-height: 1.12; }
+  .kd-hero__sub {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 22px;
+    -webkit-line-clamp: 3;
+  }
+  .kd-hero__pillars {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .kd-pillar { gap: 8px; align-items: center; }
+  .kd-pillar__icon { width: 30px; height: 30px; font-size: 13px; }
+  .kd-pillar__title { font-size: 13px; }
+  .kd-pillar__sub { font-size: 11px; }
+  .kd-hero__actions { gap: 10px; }
+  .kd-hero__actions .kd-btn {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 0 14px;
+    font-size: 14px;
+  }
+
+  /* ---- Values strip (中醫之道) ---- */
+  .kd-values__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .kd-way-side {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+    padding: 18px 0 6px;
+    border-bottom: 1px solid var(--line-warm);
+    margin-bottom: 6px;
+  }
+  .kd-way-side__cn,
+  .kd-way-side__en { writing-mode: horizontal-tb; }
+  .kd-way-side__cn { font-size: 22px; letter-spacing: 0.2em; }
+  .kd-way-side__en { font-size: 10px; letter-spacing: 0.2em; }
+  .kd-value { padding: 22px 10px 16px; border-left: none; }
+  .kd-value:nth-child(odd) { border-right: 1px solid var(--line-warm); }
+  .kd-value:not(:nth-last-child(-n+2)) { border-bottom: 1px solid var(--line-warm); }
+  .kd-value__ring {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .kd-value__title { font-size: 13.5px; letter-spacing: 0.05em; }
+  .kd-value__desc { font-size: 11.5px; max-width: 160px; }
+
+  /* ---- Services (dark) ---- */
+  .kd-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .kd-service-card {
+    aspect-ratio: 4 / 4.5;
+  }
+  .kd-service-card__body {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+  .kd-service-card__title { font-size: 16px; }
+  .kd-service-card__desc { font-size: 11.5px; line-height: 1.55; }
+
+  /* ---- Team ---- */
+  .kd-team__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .kd-doc-card__body { padding: 12px 14px 14px; gap: 4px; }
+  .kd-doc-card__name { font-size: 15px; }
+  .kd-doc-card__cred { font-size: 10px; letter-spacing: 0.08em; }
+  .kd-doc-card__spec { font-size: 11.5px; line-height: 1.6; }
+  .kd-doc-card__cta { height: 36px; font-size: 13px; }
+
+  /* ---- Methods (treatments secondary row — if visible) ---- */
+  .kd-methods__row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .kd-method__title { font-size: 14px; }
+  .kd-method__desc { font-size: 11.5px; }
+
+  /* ---- Conditions ---- */
+  .kd-conditions__list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .kd-condition { padding: 14px 14px; }
+  .kd-condition__name { font-size: 14px; letter-spacing: 0.04em; }
+  .kd-condition__desc { font-size: 11.5px; line-height: 1.55; }
+
+  /* ---- Why Kunde ---- */
+  .kd-why__grid { grid-template-columns: 1fr; gap: 14px; }
+  .kd-why__card { padding: 20px; }
+  .kd-why__card h3 { font-size: 16px; }
+  .kd-why__card p { font-size: 13px; }
+
+  /* ---- Testimonials ---- */
+  .kd-testimonials__grid { grid-template-columns: 1fr; gap: 14px; }
+  .kd-testimonial { padding: 18px 20px; }
+
+  /* ---- Blog ---- */
+  .kd-blog__cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .kd-article__body { padding: 12px 14px 14px; }
+  .kd-article__title { font-size: 14px; line-height: 1.4; margin-bottom: 6px; }
+  .kd-article__desc { font-size: 11.5px; line-height: 1.6; margin-bottom: 10px; }
+  .kd-article__foot { font-size: 10.5px; }
+
+  /* ---- CTA ---- */
+  .kd-cta { padding-block: 48px; }
+  .kd-cta__inner { padding: 0 8px; }
+  .kd-cta__logo { margin-bottom: 20px; }
+  .kd-cta__logo-img { height: 52px; }
+  .kd-cta h2 { font-size: 24px; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .kd-cta p { font-size: 13.5px; margin-bottom: 22px; }
+
+  /* ---- Footer ---- */
+  /* The Footer still uses legacy Tailwind classes (md:grid-cols-2 / lg:grid-cols-4)
+     — those already collapse cleanly on mobile. Just tighten spacing. */
+}
+
+/* Extra-small screens */
+@media (max-width: 520px) {
+  .kd-hero__pillars { grid-template-columns: repeat(2, 1fr); }
+  .kd-hero__pillars > li:nth-child(3) { grid-column: span 2; }
+  .kd-blog__cards { grid-template-columns: 1fr; }
+  .kd-conditions__list { grid-template-columns: 1fr; }
+  .kd-h1 { font-size: 32px; }
+  /* Keep stats as 2x2, team/services/methods as 2-col for compactness */
+  .kd-value__ring { width: 54px; height: 54px; font-size: 18px; }
+  .kd-value { padding: 18px 8px 14px; }
+}
+
 .admin-input {
   width: 100%;
   padding: 0.5rem 0.75rem;

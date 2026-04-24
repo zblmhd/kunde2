@@ -10,16 +10,6 @@ import { WhyChooseKunde } from '@/components/sections/WhyChooseKunde';
 import { ClinicGallery } from '@/components/sections/ClinicGallery';
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { BlogPreview } from '@/components/sections/BlogPreview';
-// Mobile (original-design) section variants
-import { HeroMobile } from '@/components/mobile/HeroMobile';
-import { StatsSectionMobile } from '@/components/mobile/StatsSectionMobile';
-import { MethodsGridMobile } from '@/components/mobile/MethodsGridMobile';
-import { ConditionsGridMobile } from '@/components/mobile/ConditionsGridMobile';
-import { DoctorBookingSectionMobile } from '@/components/mobile/DoctorBookingSectionMobile';
-import { WhyChooseKundeMobile } from '@/components/mobile/WhyChooseKundeMobile';
-import { TestimonialsSectionMobile } from '@/components/mobile/TestimonialsSectionMobile';
-import { BlogPreviewMobile } from '@/components/mobile/BlogPreviewMobile';
-import { CTABannerMobile } from '@/components/mobile/CTABannerMobile';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { locales, type Locale, dict } from '@/lib/i18n';
 import {
@@ -98,49 +88,24 @@ export default function HomePage({ params }: Props) {
       <JsonLd data={medicalBusinessSchema(lang)} />
       <JsonLd data={breadcrumbSchema(breadcrumbs)} />
 
-      {/* === Desktop view (≥ lg) — new song-landscape redesign === */}
-      <div className="hidden lg:block">
-        <Hero locale={lang} />
-        <StatsSection locale={lang} />
-        <MethodsGrid locale={lang} />
-        <ConditionsGrid locale={lang} />
-        <DoctorBookingSection locale={lang} />
-        <WhyChooseKunde locale={lang} />
-        <ClinicGallery locale={lang} />
-        <TestimonialsSection locale={lang} />
-        <BlogPreview locale={lang} />
+      <Hero locale={lang} />
+      <StatsSection locale={lang} />
+      <MethodsGrid locale={lang} />
+      <ConditionsGrid locale={lang} />
+      <DoctorBookingSection locale={lang} />
+      <WhyChooseKunde locale={lang} />
+      <ClinicGallery locale={lang} />
+      <TestimonialsSection locale={lang} />
+      <BlogPreview locale={lang} />
 
-        <CTABanner
-          title={t.ctaTitle}
-          subtitle={t.ctaSub}
-          primaryLabel={t.cta}
-          primaryHref={`/${lang}/contact#booking`}
-          secondaryLabel={t.ctaSecondaryLabel}
-          secondaryHref={`/${lang}/contact#locations`}
-        />
-      </div>
-
-      {/* === Mobile view (< lg) — original site design === */}
-      <div className="lg:hidden">
-        <HeroMobile locale={lang} />
-        <StatsSectionMobile locale={lang} />
-        <MethodsGridMobile locale={lang} />
-        <ConditionsGridMobile locale={lang} />
-        <DoctorBookingSectionMobile locale={lang} />
-        <WhyChooseKundeMobile locale={lang} />
-        <ClinicGallery locale={lang} />
-        <TestimonialsSectionMobile locale={lang} />
-        <BlogPreviewMobile locale={lang} />
-
-        <CTABannerMobile
-          title={t.ctaTitle}
-          subtitle={t.ctaSub}
-          primaryLabel={t.cta}
-          primaryHref={`/${lang}/contact#booking`}
-          secondaryLabel={t.ctaSecondaryLabel}
-          secondaryHref={`/${lang}/contact#locations`}
-        />
-      </div>
+      <CTABanner
+        title={t.ctaTitle}
+        subtitle={t.ctaSub}
+        primaryLabel={t.cta}
+        primaryHref={`/${lang}/contact#booking`}
+        secondaryLabel={t.ctaSecondaryLabel}
+        secondaryHref={`/${lang}/contact#locations`}
+      />
     </>
   );
 }

@@ -20,7 +20,7 @@ export function Header({ locale }: HeaderProps) {
   const other = otherLocale(locale);
 
   return (
-    <header className="sticky top-0 z-30 hidden lg:block">
+    <header className="sticky top-0 z-30">
       <AnnouncementBar locale={locale} />
 
       <div className="kd-header">
