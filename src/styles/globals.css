@@ -740,7 +740,9 @@ a:hover { color: var(--gold-900); }
 }
 .kd-doc-card__media img {
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center 18%;
+  transform: scale(1.12);
+  transform-origin: center 22%;
 }
 .kd-doc-card__body {
   padding: 16px 18px 18px;
@@ -1300,7 +1302,7 @@ a:hover { color: var(--gold-900); }
   /* Shift the photo crop on mobile so the misty mountains (left of image)
      are visible along with part of the meditating elder (right). */
   .kd-hero__bg img {
-    object-position: 22% center !important;
+    object-position: 12% center !important;
   }
   .kd-hero__inner {
     grid-template-columns: 1fr;
